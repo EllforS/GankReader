@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:id="@+id/menu_group_first">
+        <item
+            android:id="@+id/menu_read"
+            android:icon="@drawable/drawer_read"
+            android:title="@string/read"/>
+        <item
+            android:id="@+id/menu_fuli"
+            android:icon="@drawable/drawer_fuli"
+            android:title="@string/fuli"/>
+        <item
+            android:id="@+id/menu_video"
+            android:icon="@drawable/drawer_video"
+            android:title="@string/video"/>
+    </group>
+
+    <group android:id="@+id/menu_group_second">
+        <item
+            android:id="@+id/menu_setting"
+            android:icon="@drawable/drawer_setting"
+            android:title="@string/setting"/>
+    </group>
+
+</menu>

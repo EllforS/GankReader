@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="@dimen/padding_size"
+    app:cardCornerRadius="@dimen/corner_radius"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/item_fuli_img"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@color/white"
+        android:scaleType="centerCrop"
+        tools:targetApi="lollipop"/>
+
+</android.support.v7.widget.CardView>
