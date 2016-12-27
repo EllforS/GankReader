@@ -7,4 +7,14 @@
 
     <include layout="@layout/layout_header"/>
 
+    <LinearLayout
+        android:layout_margin="@dimen/padding_size_10dp"
+        android:background="@drawable/setting_bg"
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+
+
+
+    </LinearLayout>
+
 </LinearLayout>

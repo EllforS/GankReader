@@ -2,8 +2,11 @@ package com.ellfors.gankreader.http.config;
 
 
 import com.ellfors.gankreader.http.model.BaseCallModel;
+import com.ellfors.gankreader.model.AndroidModel;
 import com.ellfors.gankreader.model.FuliModel;
+import com.ellfors.gankreader.model.IOSModel;
 import com.ellfors.gankreader.model.VideoModel;
+import com.ellfors.gankreader.model.WebModel;
 
 import java.util.List;
 
@@ -26,5 +29,28 @@ public interface HttpApi
     Observable<BaseCallModel<List<VideoModel>>> getVideoList(
             @Path("limit") int limit,
             @Path("page") int page
+    );
+
+    @GET("/api/data/Android/{limit}/{page}")
+    Observable<BaseCallModel<List<AndroidModel>>> getAndroidList(
+            @Path("limit") int limit,
+            @Path("page") int page
+    );
+
+    @GET("/api/data/iOS/{limit}/{page}")
+    Observable<BaseCallModel<List<IOSModel>>> getIOSList(
+            @Path("limit") int limit,
+            @Path("page") int page
+    );
+
+    @GET("/api/data/前端/{limit}/{page}")
+    Observable<BaseCallModel<List<WebModel>>> getWebList(
+            @Path("limit") int limit,
+            @Path("page") int page
+    );
+
+    @GET("/api/random/data/福利/{num}")
+    Observable<BaseCallModel<List<FuliModel>>> getRandomFuli(
+            @Path("num") int num
     );
 }

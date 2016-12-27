@@ -20,6 +20,7 @@ import com.ellfors.gankreader.model.VideoModel;
 import com.ellfors.gankreader.ui.fragment.VideoFragment;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class VideoWebViewActivity extends BaseActivity
 {
@@ -55,20 +56,20 @@ public class VideoWebViewActivity extends BaseActivity
             VideoModel model = (VideoModel) bundle.getSerializable(VideoFragment.VIDEO_MODEL);
 
             tv_title.setText(model.getDesc());
-            iv_goback.setOnClickListener(new View.OnClickListener()
-            {
-                @Override
-                public void onClick(View view)
-                {
-                    finish();
-                }
-            });
             mWebView.loadUrl(model.getUrl());
 
             setMyWebViewClient();
             setMyWebViewChromeClient();
             setMyWebSetting();
         }
+    }
+
+    /**
+     * 返回
+     */
+    @OnClick(R.id.head_go_back) void doOnGoBack()
+    {
+        finish();
     }
 
     /**
@@ -194,7 +195,4 @@ public class VideoWebViewActivity extends BaseActivity
             mWebView = null;
         }
     }
-
-
-
 }
