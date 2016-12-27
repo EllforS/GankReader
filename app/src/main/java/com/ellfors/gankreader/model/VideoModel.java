@@ -1,7 +1,9 @@
 package com.ellfors.gankreader.model;
 
 
-public class VideoModel
+import java.io.Serializable;
+
+public class VideoModel implements Serializable
 {
     private String _id;
     private String createdAt;

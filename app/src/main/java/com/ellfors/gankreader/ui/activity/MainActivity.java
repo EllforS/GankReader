@@ -1,15 +1,17 @@
 package com.ellfors.gankreader.ui.activity;
 
 import android.Manifest;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
-import android.view.View;
+import android.view.MenuItem;
 
 import com.ellfors.gankreader.R;
 import com.ellfors.gankreader.base.BaseActivity;
+import com.ellfors.gankreader.base.BaseFragment;
 import com.ellfors.gankreader.ui.fragment.FuliFragment;
 import com.ellfors.gankreader.ui.fragment.ReadFragment;
 import com.ellfors.gankreader.ui.fragment.SettingFragment;
@@ -22,7 +24,7 @@ import kr.co.namee.permissiongen.PermissionFail;
 import kr.co.namee.permissiongen.PermissionGen;
 import kr.co.namee.permissiongen.PermissionSuccess;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener
+public class MainActivity extends BaseActivity
 {
     private static final int PERMISSION_CODE = 100;
 
@@ -66,39 +68,43 @@ public class MainActivity extends BaseActivity implements View.OnClickListener
         ft.add(R.id.main_frame,readFragment);
         ft.commit();
         /* NavigationView */
-        mNavigationView.findViewById(R.id.menu_read).setOnClickListener(this);
-        mNavigationView.findViewById(R.id.menu_fuli).setOnClickListener(this);
-        mNavigationView.findViewById(R.id.menu_video).setOnClickListener(this);
-        mNavigationView.findViewById(R.id.menu_setting).setOnClickListener(this);
+        mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener()
+        {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item)
+            {
+                switch (item.getItemId())
+                {
+                    case R.id.menu_read:
+                        setMenuItemListener(readFragment);
+                        break;
+                    case R.id.menu_fuli:
+                        setMenuItemListener(fuliFragment);
+                        break;
+                    case R.id.menu_video:
+                        setMenuItemListener(videoFragment);
+                        break;
+                    case R.id.menu_setting:
+                        setMenuItemListener(settingFragment);
+                        break;
+                    default:
+                        break;
+                }
+                return false;
+            }
+        });
     }
 
-    @Override
-    public void onClick(View view)
+    /**
+     * 侧栏Click监听
+     */
+    private void setMenuItemListener(BaseFragment fragment)
     {
         fm = getSupportFragmentManager();
         ft = fm.beginTransaction();
-
-        switch (view.getId())
-        {
-            case R.id.menu_read:
-                ft.replace(R.id.main_frame,readFragment);
-                ft.commit();
-                break;
-            case R.id.menu_fuli:
-                ft.replace(R.id.main_frame,fuliFragment);
-                ft.commit();
-                break;
-            case R.id.menu_video:
-                ft.replace(R.id.main_frame,videoFragment);
-                ft.commit();
-                break;
-            case R.id.menu_setting:
-                ft.replace(R.id.main_frame,settingFragment);
-                ft.commit();
-                break;
-            default:
-                break;
-        }
+        ft.replace(R.id.main_frame,fragment);
+        ft.commit();
+        closeDrawer();
     }
 
     /**
@@ -109,6 +115,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener
         mDrawerLayout.openDrawer(Gravity.LEFT);
     }
 
+    /**
+     * 关闭抽屉
+     */
+    public void closeDrawer()
+    {
+        mDrawerLayout.closeDrawer(Gravity.LEFT);
+    }
 
     /**
      * 申请权限

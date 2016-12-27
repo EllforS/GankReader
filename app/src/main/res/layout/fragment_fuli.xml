@@ -20,7 +20,7 @@
                 android:id="@+id/hear_open_drawer"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:paddingLeft="@dimen/padding_size"
+                android:paddingLeft="@dimen/padding_size_10dp"
                 android:src="@drawable/open_drawer"/>
 
             <TextView
