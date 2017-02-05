@@ -3,10 +3,11 @@ package com.ellfors.gankreader.di.module;
 import android.app.Activity;
 
 import com.ellfors.gankreader.di.ActivityScope;
+import com.ellfors.gankreader.ui.fragment.AboutFragment;
 import com.ellfors.gankreader.ui.fragment.FuliFragment;
+import com.ellfors.gankreader.ui.fragment.LikeFragment;
 import com.ellfors.gankreader.ui.fragment.ReadFragment;
 import com.ellfors.gankreader.ui.fragment.SettingFragment;
-import com.ellfors.gankreader.ui.fragment.VideoFragment;
 
 import dagger.Module;
 import dagger.Provides;
@@ -44,9 +45,9 @@ public class ActivityModule
 
     @Provides
     @ActivityScope
-    VideoFragment provideVideoFragment()
+    LikeFragment provideLikeFragment()
     {
-        return new VideoFragment();
+        return new LikeFragment();
     }
 
     @Provides
@@ -54,5 +55,12 @@ public class ActivityModule
     SettingFragment provideSettingFragment()
     {
         return new SettingFragment();
+    }
+
+    @Provides
+    @ActivityScope
+    AboutFragment provideAboutFragment()
+    {
+        return new AboutFragment();
     }
 }

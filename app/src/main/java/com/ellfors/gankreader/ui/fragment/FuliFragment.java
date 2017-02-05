@@ -136,7 +136,6 @@ public class FuliFragment extends BaseFragment implements FuliContract.View
         isLoading = false;
         fuli_list.addAll(list);
         fuliAdapter.notifyDataSetChanged();
-        mRecyclerView.smoothScrollBy(0,200);
         setRcvItemClick();
     }
 

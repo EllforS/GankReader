@@ -4,8 +4,10 @@
     <string name="progressdialog_toast">正在加载,请稍后...</string>
     <string name="read">阅读</string>
     <string name="fuli">福利</string>
-    <string name="video">视频</string>
+    <string name="like">收藏</string>
     <string name="setting">设置</string>
+    <string name="about">关于</string>
+    <string name="about_values">此App仅用于学习与尝试最新的技术，不做商业用途。</string>
     <string name="loading">加载中...</string>
     <string name="loading_end">没有更多了.</string>
 </resources>

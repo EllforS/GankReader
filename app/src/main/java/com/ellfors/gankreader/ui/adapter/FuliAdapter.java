@@ -23,7 +23,7 @@ public class FuliAdapter extends BaseRcvAdapter
 
     public FuliAdapter(Context context, List<FuliModel> list)
     {
-        super(false, false);
+        super(false, true);
         this.context = context;
         this.list = list;
     }
@@ -31,7 +31,15 @@ public class FuliAdapter extends BaseRcvAdapter
     @Override
     public RecyclerView.ViewHolder onCreateHolder(ViewGroup parent, int viewType)
     {
-        return new ItemViewHolder(LayoutInflater.from(context).inflate(R.layout.list_item_fuli,parent,false));
+        if(viewType == TYPE_ITEM)
+        {
+            return new ItemViewHolder(LayoutInflater.from(context).inflate(R.layout.list_item_fuli,parent,false));
+        }
+        else if(viewType == TYPE_FOOTER)
+        {
+            return new FooterViewHolder(LayoutInflater.from(context).inflate(R.layout.list_item_footerview,parent,false));
+        }
+        return null;
     }
 
     @Override
@@ -46,7 +54,7 @@ public class FuliAdapter extends BaseRcvAdapter
     @Override
     public int getItemSize()
     {
-        return list.size() == 0 || list == null ? 0 : list.size();
+        return list.size() == 0 || list == null ? 0 : list.size() + 1;
     }
 
     private class ItemViewHolder extends BaseViewHolder
@@ -57,6 +65,14 @@ public class FuliAdapter extends BaseRcvAdapter
         {
             super(itemView);
             iv_item = $(R.id.item_fuli_img);
+        }
+    }
+
+    private class FooterViewHolder extends BaseViewHolder
+    {
+        public FooterViewHolder(View itemView)
+        {
+            super(itemView);
         }
     }
 }

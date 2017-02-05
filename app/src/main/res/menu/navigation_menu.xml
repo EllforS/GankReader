@@ -11,9 +11,9 @@
             android:icon="@drawable/drawer_fuli"
             android:title="@string/fuli"/>
         <item
-            android:id="@+id/menu_video"
-            android:icon="@drawable/drawer_video"
-            android:title="@string/video"/>
+            android:id="@+id/menu_like"
+            android:icon="@drawable/drawer_like"
+            android:title="@string/like"/>
     </group>
 
     <group android:id="@+id/menu_group_second">
@@ -21,6 +21,10 @@
             android:id="@+id/menu_setting"
             android:icon="@drawable/drawer_setting"
             android:title="@string/setting"/>
+        <item
+            android:id="@+id/menu_about"
+            android:icon="@drawable/drawer_about"
+            android:title="@string/about"/>
     </group>
 
 </menu>

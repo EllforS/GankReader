@@ -16,13 +16,11 @@ import android.widget.TextView;
 
 import com.ellfors.gankreader.R;
 import com.ellfors.gankreader.base.BaseActivity;
-import com.ellfors.gankreader.model.VideoModel;
-import com.ellfors.gankreader.ui.fragment.VideoFragment;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class VideoWebViewActivity extends BaseActivity
+public class WebViewActivity extends BaseActivity
 {
     @BindView(R.id.head_go_back)
     ImageView iv_goback;
@@ -53,10 +51,10 @@ public class VideoWebViewActivity extends BaseActivity
         Bundle bundle = getIntent().getExtras();
         if(bundle != null)
         {
-            VideoModel model = (VideoModel) bundle.getSerializable(VideoFragment.VIDEO_MODEL);
-
-            tv_title.setText(model.getDesc());
-            mWebView.loadUrl(model.getUrl());
+//            VideoModel model = (VideoModel) bundle.getSerializable(VideoFragment.VIDEO_MODEL);
+//
+//            tv_title.setText(model.getDesc());
+//            mWebView.loadUrl(model.getUrl());
 
             setMyWebViewClient();
             setMyWebViewChromeClient();

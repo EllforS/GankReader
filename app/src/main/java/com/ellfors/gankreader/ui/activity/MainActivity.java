@@ -7,15 +7,22 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.ellfors.gankreader.R;
+import com.ellfors.gankreader.app.AppConfig;
 import com.ellfors.gankreader.base.BaseActivity;
 import com.ellfors.gankreader.base.BaseFragment;
+import com.ellfors.gankreader.ui.fragment.AboutFragment;
 import com.ellfors.gankreader.ui.fragment.FuliFragment;
+import com.ellfors.gankreader.ui.fragment.LikeFragment;
 import com.ellfors.gankreader.ui.fragment.ReadFragment;
 import com.ellfors.gankreader.ui.fragment.SettingFragment;
-import com.ellfors.gankreader.ui.fragment.VideoFragment;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.inject.Inject;
 
@@ -26,8 +33,6 @@ import kr.co.namee.permissiongen.PermissionSuccess;
 
 public class MainActivity extends BaseActivity
 {
-    private static final int PERMISSION_CODE = 100;
-
     @BindView(R.id.main_drawerlayout)
     DrawerLayout mDrawerLayout;
     @BindView(R.id.main_navigation)
@@ -38,9 +43,11 @@ public class MainActivity extends BaseActivity
     @Inject
     FuliFragment fuliFragment;
     @Inject
-    VideoFragment videoFragment;
+    LikeFragment likeFragment;
     @Inject
     SettingFragment settingFragment;
+    @Inject
+    AboutFragment aboutFragment;
 
     private FragmentManager fm;
     private FragmentTransaction ft;
@@ -81,11 +88,14 @@ public class MainActivity extends BaseActivity
                     case R.id.menu_fuli:
                         setMenuItemListener(fuliFragment);
                         break;
-                    case R.id.menu_video:
-                        setMenuItemListener(videoFragment);
+                    case R.id.menu_like:
+                        setMenuItemListener(likeFragment);
                         break;
                     case R.id.menu_setting:
                         setMenuItemListener(settingFragment);
+                        break;
+                    case R.id.menu_about:
+                        setMenuItemListener(aboutFragment);
                         break;
                     default:
                         break;
@@ -130,7 +140,7 @@ public class MainActivity extends BaseActivity
     {
         PermissionGen
                 .with(this)
-                .addRequestCode(PERMISSION_CODE)
+                .addRequestCode(AppConfig.PERMISSION_CODE)
                 .permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .request();
     }
@@ -142,16 +152,61 @@ public class MainActivity extends BaseActivity
         PermissionGen.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
     }
 
-    @PermissionSuccess(requestCode = PERMISSION_CODE)
+    @PermissionSuccess(requestCode = AppConfig.PERMISSION_CODE)
     public void doSuccessPermission()
     {
         /* 申请权限成功 */
     }
 
-    @PermissionFail(requestCode = PERMISSION_CODE)
+    @PermissionFail(requestCode = AppConfig.PERMISSION_CODE)
     public void doFailPermission()
     {
         /* 申请权限失败 */
+    }
+
+    /**
+     * 菜单、返回键响应
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        if(keyCode == KeyEvent.KEYCODE_BACK)
+        {
+            //调用双击退出函数
+            exitBy2Click();
+        }
+        return false;
+    }
+    /**
+     * 双击退出函数
+     */
+    private static Boolean isExit = false;
+
+    private void exitBy2Click()
+    {
+        Timer tExit = null;
+        if (isExit == false)
+        {
+            // 准备退出
+            isExit = true;
+            Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+            tExit = new Timer();
+            tExit.schedule(new TimerTask()
+            {
+                @Override
+                public void run()
+                {
+                    // 取消退出
+                    isExit = false;
+                }
+            }, 2000); // 如果2秒钟内没有按下返回键，则启动定时器取消掉刚才执行的任务
+
+        }
+        else
+        {
+            finish();
+            System.exit(0);
+        }
     }
 
 }

@@ -52,7 +52,7 @@ public class MyApplication extends Application
         stack = new Stack<>();
         setDayNightMode();
         mContext = this;
-        L.init("AAA",2,false,0);
+        L.init(AppConfig.LOG_TAG,2,false,0);
     }
 
     /**

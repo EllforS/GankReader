@@ -5,7 +5,6 @@ import com.ellfors.gankreader.http.model.BaseCallModel;
 import com.ellfors.gankreader.model.AndroidModel;
 import com.ellfors.gankreader.model.FuliModel;
 import com.ellfors.gankreader.model.IOSModel;
-import com.ellfors.gankreader.model.VideoModel;
 import com.ellfors.gankreader.model.WebModel;
 
 import java.util.List;
@@ -21,12 +20,6 @@ public interface HttpApi
 {
     @GET("/api/data/福利/{limit}/{page}")
     Observable<BaseCallModel<List<FuliModel>>> getFuLi(
-            @Path("limit") int limit,
-            @Path("page") int page
-    );
-
-    @GET("/api/data/休息视频/{limit}/{page}")
-    Observable<BaseCallModel<List<VideoModel>>> getVideoList(
             @Path("limit") int limit,
             @Path("page") int page
     );

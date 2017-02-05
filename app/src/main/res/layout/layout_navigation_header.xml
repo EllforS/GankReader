@@ -5,12 +5,10 @@
     android:layout_height="250dp"
     android:orientation="vertical">
 
-    <LinearLayout
+    <ImageView
+        android:background="@drawable/dawer_title_bg"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorPrimaryDark"
-        android:gravity="center"
-        android:orientation="vertical">
-    </LinearLayout>
+        android:layout_height="match_parent">
+    </ImageView>
 
 </LinearLayout>
