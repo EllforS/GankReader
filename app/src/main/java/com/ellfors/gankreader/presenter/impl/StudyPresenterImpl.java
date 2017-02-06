@@ -4,8 +4,8 @@ import com.ellfors.gankreader.base.BasePresenterImpl;
 import com.ellfors.gankreader.http.utils.RetrofitManager;
 import com.ellfors.gankreader.http.utils.RxUtils;
 import com.ellfors.gankreader.http.utils.SimpleSubscriber;
-import com.ellfors.gankreader.model.AndroidModel;
-import com.ellfors.gankreader.presenter.contract.AndroidContract;
+import com.ellfors.gankreader.model.StudyModel;
+import com.ellfors.gankreader.presenter.contract.StudyContract;
 
 import java.util.List;
 
@@ -13,28 +13,28 @@ import javax.inject.Inject;
 
 import rx.Subscription;
 
-public class AndroidPresenterImpl extends BasePresenterImpl<AndroidContract.View> implements AndroidContract.Presenter
+public class StudyPresenterImpl extends BasePresenterImpl<StudyContract.View> implements StudyContract.Presenter
 {
     private RetrofitManager manager;
     private int limit = 20;
     private int page = 1;
 
     @Inject
-    public AndroidPresenterImpl(RetrofitManager manager)
+    public StudyPresenterImpl(RetrofitManager manager)
     {
         this.manager = manager;
     }
 
     @Override
-    public void getAndroidList()
+    public void getStudyList(String tag)
     {
         page = 1;
         Subscription sub = manager
                 .getGsonHttpApi()
-                .getAndroidList(limit,page)
-                .compose(RxUtils.<List<AndroidModel>>handleResult())
-                .compose(RxUtils.<List<AndroidModel>>rxSchedulerHelper())
-                .subscribe(new SimpleSubscriber<List<AndroidModel>>()
+                .getStudyList(tag,limit,page)
+                .compose(RxUtils.<List<StudyModel>>handleResult())
+                .compose(RxUtils.<List<StudyModel>>rxSchedulerHelper())
+                .subscribe(new SimpleSubscriber<List<StudyModel>>()
                 {
                     @Override
                     public void onError(Throwable e)
@@ -43,7 +43,7 @@ public class AndroidPresenterImpl extends BasePresenterImpl<AndroidContract.View
                     }
 
                     @Override
-                    public void onNext(List<AndroidModel> androidModels)
+                    public void onNext(List<StudyModel> androidModels)
                     {
                         mView.showList(androidModels);
                     }
@@ -52,15 +52,15 @@ public class AndroidPresenterImpl extends BasePresenterImpl<AndroidContract.View
     }
 
     @Override
-    public void loadingAndroidList()
+    public void loadingStudyList(String tag)
     {
         page += 1;
         Subscription sub = manager
                 .getGsonHttpApi()
-                .getAndroidList(limit,page)
-                .compose(RxUtils.<List<AndroidModel>>handleResult())
-                .compose(RxUtils.<List<AndroidModel>>rxSchedulerHelper())
-                .subscribe(new SimpleSubscriber<List<AndroidModel>>()
+                .getStudyList(tag,limit,page)
+                .compose(RxUtils.<List<StudyModel>>handleResult())
+                .compose(RxUtils.<List<StudyModel>>rxSchedulerHelper())
+                .subscribe(new SimpleSubscriber<List<StudyModel>>()
                 {
                     @Override
                     public void onError(Throwable e)
@@ -69,7 +69,7 @@ public class AndroidPresenterImpl extends BasePresenterImpl<AndroidContract.View
                     }
 
                     @Override
-                    public void onNext(List<AndroidModel> androidModels)
+                    public void onNext(List<StudyModel> androidModels)
                     {
                         mView.loadingList(androidModels);
                     }

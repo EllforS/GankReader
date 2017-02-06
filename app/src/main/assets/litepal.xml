@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<litepal>
+    <!--数据库名称-->
+    <dbname value="study"></dbname>
+    <!--数据库版本号-->
+    <version value="3"></version>
+    <!--设定所有的映射模型,也就是你的实体类-->
+    <list>
+        <mapping class="com.ellfors.gankreader.model.LiteModel"></mapping>
+    </list>
+</litepal>

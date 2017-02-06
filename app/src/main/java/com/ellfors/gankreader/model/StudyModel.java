@@ -1,7 +1,10 @@
 package com.ellfors.gankreader.model;
 
 
-public class IOSModel
+import java.io.Serializable;
+import java.util.List;
+
+public class StudyModel implements Serializable
 {
     private String _id;
     private String createdAt;
@@ -12,6 +15,7 @@ public class IOSModel
     private String url;
     private boolean used;
     private String who;
+    private List<String> images;
 
     public String get_id() {
         return _id;
@@ -83,5 +87,13 @@ public class IOSModel
 
     public void setWho(String who) {
         this.who = who;
+    }
+
+    public List<String> getImages() {
+        return images;
+    }
+
+    public void setImages(List<String> images) {
+        this.images = images;
     }
 }

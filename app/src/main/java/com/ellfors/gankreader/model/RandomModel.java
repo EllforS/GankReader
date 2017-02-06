@@ -1,13 +1,11 @@
 package com.ellfors.gankreader.model;
 
-
-public class WebModel
+public class RandomModel
 {
     private String _id;
     private String createdAt;
     private String desc;
     private String publishedAt;
-    private String source;
     private String type;
     private String url;
     private boolean used;
@@ -43,14 +41,6 @@ public class WebModel
 
     public void setPublishedAt(String publishedAt) {
         this.publishedAt = publishedAt;
-    }
-
-    public String getSource() {
-        return source;
-    }
-
-    public void setSource(String source) {
-        this.source = source;
     }
 
     public String getType() {

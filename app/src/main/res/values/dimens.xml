@@ -3,6 +3,7 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
+    <dimen name="padding_size_20dp">20dp</dimen>
     <dimen name="padding_size_10dp">10dp</dimen>
     <dimen name="padding_size_5dp">5dp</dimen>
     <dimen name="title_text_size">17dp</dimen>

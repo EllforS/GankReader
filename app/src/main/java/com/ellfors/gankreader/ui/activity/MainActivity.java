@@ -1,6 +1,7 @@
 package com.ellfors.gankreader.ui.activity;
 
 import android.Manifest;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -20,6 +21,8 @@ import com.ellfors.gankreader.ui.fragment.FuliFragment;
 import com.ellfors.gankreader.ui.fragment.LikeFragment;
 import com.ellfors.gankreader.ui.fragment.ReadFragment;
 import com.ellfors.gankreader.ui.fragment.SettingFragment;
+
+import org.litepal.tablemanager.Connector;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -67,6 +70,7 @@ public class MainActivity extends BaseActivity
     @Override
     public void initEventAndData()
     {
+        SQLiteDatabase db = Connector.getDatabase();
         /* Permission */
         checkPermission();
         /* initFragment */

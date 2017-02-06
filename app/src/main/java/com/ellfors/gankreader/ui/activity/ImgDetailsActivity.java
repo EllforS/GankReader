@@ -166,7 +166,7 @@ public class ImgDetailsActivity extends BaseActivity
                     @Override
                     public void call(Subscriber<? super Boolean> subscriber)
                     {
-                        Bitmap bitmap = GlideLoadUtils.getGlideBitmap(mContext,url,480,800);
+                        Bitmap bitmap = GlideLoadUtils.getGlideBitmap(mContext,url,1080,1920);
                         subscriber.onNext(BitmapSaveUtils.saveImageToGallery(mContext,bitmap,SavePath));
                         subscriber.onCompleted();
                     }

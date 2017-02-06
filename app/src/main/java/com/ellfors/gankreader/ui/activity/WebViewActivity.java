@@ -2,6 +2,10 @@ package com.ellfors.gankreader.ui.activity;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebChromeClient;
@@ -12,62 +16,162 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.ellfors.gankreader.R;
 import com.ellfors.gankreader.base.BaseActivity;
+import com.ellfors.gankreader.model.LiteModel;
+import com.ellfors.gankreader.model.RandomModel;
+import com.ellfors.gankreader.model.StudyModel;
+import com.ellfors.gankreader.presenter.contract.RandomContract;
+import com.ellfors.gankreader.presenter.impl.RandomPresenterImpl;
+import com.ellfors.gankreader.ui.fragment.StudyFragment;
+import com.ellfors.gankreader.utils.GlideLoadUtils;
+import com.ellfors.gankreader.utils.L;
+
+import org.litepal.crud.DataSupport;
+
+import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
-public class WebViewActivity extends BaseActivity
+public class WebViewActivity extends BaseActivity implements RandomContract.View
 {
-    @BindView(R.id.head_go_back)
-    ImageView iv_goback;
-    @BindView(R.id.head_title)
-    TextView tv_title;
+    @BindView(R.id.webview_coll)
+    CollapsingToolbarLayout coll;
+    @BindView(R.id.webview_toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.webview_title_bg)
+    ImageView iv_title;
     @BindView(R.id.video_webview)
     WebView mWebView;
     @BindView(R.id.video_webview_progressbar)
     ProgressBar mBar;
+    @BindView(R.id.webview_like_button)
+    FloatingActionButton btn_like;
+
+    @Inject
+    RandomPresenterImpl randomPresenter;
 
     private WebSettings webSettings;
+    private boolean isLiked = false;//标记为未收藏
 
     @Override
     public void initInject()
     {
-
+        getActivityComponent().inject(this);
+        randomPresenter.attachView(this);
     }
 
     @Override
     public int getLayout()
     {
-        return R.layout.activity_video_webview;
+        return R.layout.activity_webview;
     }
 
     @Override
     public void initEventAndData()
     {
+        /* toolbar */
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationIcon(R.drawable.icon_go_back);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                finish();
+            }
+        });
+        /* 填充随机图片 */
+        randomPresenter.getRandomImg();
+        /* 加载页面 */
         Bundle bundle = getIntent().getExtras();
         if(bundle != null)
         {
-//            VideoModel model = (VideoModel) bundle.getSerializable(VideoFragment.VIDEO_MODEL);
-//
-//            tv_title.setText(model.getDesc());
-//            mWebView.loadUrl(model.getUrl());
-
+            StudyModel model = (StudyModel) bundle.getSerializable(StudyFragment.STUDY_MODEL);
+            if(model != null)
+            {
+                if(!TextUtils.isEmpty(model.getDesc()))
+                {
+                    /* 设置 CollapsingToolbarLayout 标题属性 */
+                    if(model.getDesc().length() > 10)
+                    {
+                        coll.setTitle(model.getDesc().substring(0,10) + "...");
+                    }
+                    else
+                    {
+                        coll.setTitle(model.getDesc());
+                    }
+                    coll.setCollapsedTitleTextColor(getResources().getColor(R.color.black));
+                    coll.setExpandedTitleColor(getResources().getColor(R.color.transparent));
+                }
+                if(!TextUtils.isEmpty(model.getUrl()))
+                    mWebView.loadUrl(model.getUrl());
+            }
+            /*  设置WebView */
             setMyWebViewClient();
             setMyWebViewChromeClient();
             setMyWebSetting();
+            /* 设置是否收藏 */
+            checkIsLiked(model);
+            setBtnClick(model);
         }
     }
 
     /**
-     * 返回
+     * 检查是否已收藏该条目
      */
-    @OnClick(R.id.head_go_back) void doOnGoBack()
+    private void checkIsLiked(StudyModel model)
     {
-        finish();
+        List<LiteModel> list = DataSupport.where("server_id = ?", model.get_id()).find(LiteModel.class);
+        if(list == null || list.size() == 0)
+        {
+            isLiked = false;
+            btn_like.setImageResource(R.drawable.icon_like_no);
+        }
+        else
+        {
+            isLiked = true;
+            btn_like.setImageResource(R.drawable.icon_like_yes);
+        }
+    }
+
+    /**
+     * 设置FloatingActionButton点击事件
+     */
+    private void setBtnClick(final StudyModel model)
+    {
+        btn_like.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                if(isLiked)
+                {
+                    /* 已收藏，点击取消收藏 */
+                    DataSupport.deleteAll(LiteModel.class,"server_id = ?",model.get_id());
+                    isLiked = false;
+                    btn_like.setImageResource(R.drawable.icon_like_no);
+                }
+                else
+                {
+                    /* 为收藏，点击收藏 */
+                    LiteModel liteModel = new LiteModel();
+                    liteModel.setServer_id(model.get_id());
+                    liteModel.setTitle(model.getDesc());
+                    liteModel.setTime(model.getPublishedAt());
+                    liteModel.setAuthor(model.getWho());
+                    liteModel.setUrl(model.getUrl());
+                    liteModel.save();
+
+                    isLiked = true;
+                    btn_like.setImageResource(R.drawable.icon_like_yes);
+                }
+            }
+        });
     }
 
     /**
@@ -114,8 +218,6 @@ public class WebViewActivity extends BaseActivity
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error)
             {
                 super.onReceivedError(view, request, error);
-
-                showToast("加载失败");
             }
         });
     }
@@ -192,5 +294,20 @@ public class WebViewActivity extends BaseActivity
             mWebView.destroy();
             mWebView = null;
         }
+        if(randomPresenter != null)
+            randomPresenter.detachView();
+    }
+
+    @Override
+    public void setImage(RandomModel model)
+    {
+        GlideLoadUtils.loadImage(mContext,model.getUrl(),iv_title);
+    }
+
+    @Override
+    public void showError(String msg)
+    {
+        L.e("获取随机图片Error = " + msg);
+        iv_title.setImageResource(R.drawable.icon_about_bg);
     }
 }

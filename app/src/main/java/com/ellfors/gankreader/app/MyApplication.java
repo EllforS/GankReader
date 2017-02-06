@@ -2,7 +2,6 @@ package com.ellfors.gankreader.app;
 
 
 import android.app.Activity;
-import android.app.Application;
 import android.support.v7.app.AppCompatDelegate;
 
 import com.ellfors.gankreader.di.component.AppComponent;
@@ -11,9 +10,11 @@ import com.ellfors.gankreader.di.module.AppModule;
 import com.ellfors.gankreader.utils.AppUtils;
 import com.ellfors.gankreader.utils.L;
 
+import org.litepal.LitePalApplication;
+
 import java.util.Stack;
 
-public class MyApplication extends Application
+public class MyApplication extends LitePalApplication
 {
     private static Stack<Activity> stack;
     private static MyApplication mContext;

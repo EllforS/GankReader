@@ -2,11 +2,13 @@ package com.ellfors.gankreader.ui.fragment;
 
 
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ellfors.gankreader.R;
 import com.ellfors.gankreader.base.BaseFragment;
 import com.ellfors.gankreader.ui.activity.MainActivity;
+import com.ellfors.gankreader.utils.DataCleanManager;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -17,6 +19,11 @@ public class SettingFragment extends BaseFragment
     ImageView iv_open_drawer;
     @BindView(R.id.head_title)
     TextView tv_title;
+
+    @BindView(R.id.setting_cachesize)
+    TextView tv_cache_size;
+    @BindView(R.id.setting_clean_cache)
+    LinearLayout ll_clean_cache;
 
     @Override
     public void initInject()
@@ -33,13 +40,37 @@ public class SettingFragment extends BaseFragment
     @Override
     public void initEventAndData()
     {
+        /* Title */
         tv_title.setText(getResources().getString(R.string.setting));
+        /* Cache Size */
+        try
+        {
+            tv_cache_size.setText(DataCleanManager.getTotalCacheSize(getActivity()));
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
     @OnClick(R.id.hear_open_drawer)
     void doOpenDrawer()
     {
         ((MainActivity) getActivity()).openDrawer();
+    }
+
+    @OnClick(R.id.setting_clean_cache)
+    void doCleanCache()
+    {
+        DataCleanManager.clearAllCache(getActivity());
+        try
+        {
+            tv_cache_size.setText(DataCleanManager.getTotalCacheSize(getActivity()));
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
 }

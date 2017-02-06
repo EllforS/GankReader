@@ -37,9 +37,11 @@
         </activity>
         <activity
             android:name=".ui.activity.ImgDetailsActivity"
+            android:theme="@style/TranslucentTheme"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.WebViewActivity"
+            android:theme="@style/TranslucentTheme"
             android:screenOrientation="portrait"/>
     </application>
 

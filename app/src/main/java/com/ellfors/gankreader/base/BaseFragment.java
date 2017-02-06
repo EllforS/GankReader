@@ -35,6 +35,14 @@ public abstract class BaseFragment extends Fragment
         init();
     }
 
+    @Override
+    public void onDestroyView()
+    {
+        super.onDestroyView();
+        if(unbinder != null)
+            unbinder.unbind();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater,

@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -17,6 +18,7 @@ import java.io.IOException;
  * 保存图片到本地图库
  */
 public class BitmapSaveUtils {
+    private static final String TAG = "BitmapSaveUtils";
     private static String errorMessage;
 
     /**
@@ -71,8 +73,10 @@ public class BitmapSaveUtils {
             fos.close();
         } catch (FileNotFoundException e) {
             errorMessage += e.getMessage();
+            Log.e(TAG, "saveImageToGallery: " + e.getMessage());
         } catch (IOException e) {
             errorMessage += e.getMessage();
+            Log.e(TAG, "saveImageToGallery: " + e.getMessage());
         }
 
         // 其次把文件插入到系统图库

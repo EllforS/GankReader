@@ -5,6 +5,7 @@ import android.app.Activity;
 import com.ellfors.gankreader.di.ActivityScope;
 import com.ellfors.gankreader.di.module.ActivityModule;
 import com.ellfors.gankreader.ui.activity.MainActivity;
+import com.ellfors.gankreader.ui.activity.WebViewActivity;
 
 import dagger.Component;
 
@@ -15,4 +16,5 @@ public interface ActivityComponent
     Activity activity();
 
     void inject(MainActivity activity);
+    void inject(WebViewActivity activity);
 }

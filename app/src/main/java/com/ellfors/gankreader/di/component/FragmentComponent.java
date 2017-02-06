@@ -7,6 +7,7 @@ import com.ellfors.gankreader.di.module.FragmentModule;
 import com.ellfors.gankreader.ui.fragment.FuliFragment;
 import com.ellfors.gankreader.ui.fragment.LikeFragment;
 import com.ellfors.gankreader.ui.fragment.ReadFragment;
+import com.ellfors.gankreader.ui.fragment.StudyFragment;
 
 import dagger.Component;
 
@@ -16,7 +17,7 @@ public interface FragmentComponent
 {
     Activity activity();
 
-    void Inject(ReadFragment readFragment);
+    void inject(ReadFragment readFragment);
+    void inject(StudyFragment studyFragment);
     void inject(FuliFragment fuliFragment);
-    void inject(LikeFragment likeFragment);
 }

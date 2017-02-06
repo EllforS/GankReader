@@ -3,21 +3,21 @@ package com.ellfors.gankreader.presenter.contract;
 
 import com.ellfors.gankreader.base.BasePresenter;
 import com.ellfors.gankreader.base.BaseView;
-import com.ellfors.gankreader.model.IOSModel;
+import com.ellfors.gankreader.model.StudyModel;
 
 import java.util.List;
 
-public class IOSContract
+public class StudyContract
 {
     public interface View extends BaseView
     {
-        void showList(List<IOSModel> list);
-        void loadingList(List<IOSModel> list);
+        void showList(List<StudyModel> list);
+        void loadingList(List<StudyModel> list);
     }
 
     public interface Presenter extends BasePresenter<View>
     {
-        void getIOSList();
-        void loadingIOSList();
+        void getStudyList(String tag);
+        void loadingStudyList(String tag);
     }
 }
