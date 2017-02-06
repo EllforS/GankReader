@@ -47,14 +47,10 @@ public class StudyFragment extends BaseFragment implements StudyContract.View
     {
         super.onCreate(savedInstanceState);
         tag = getArguments() != null ? getArguments().getString("tag") : null;
-
-        L.d("触发onCreate()方法 tag = " + tag);
     }
 
     public static StudyFragment newInstance(String tag)
     {
-        L.d("触发newInstance()方法");
-
         final StudyFragment f = new StudyFragment();
         final Bundle bundle = new Bundle();
         bundle.putString("tag", tag);

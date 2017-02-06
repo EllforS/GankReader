@@ -9,6 +9,7 @@
     <string name="about">关于</string>
     <string name="about_values">此App仅用于学习与尝试最新的技术，不做商业用途。</string>
     <string name="clean">清理缓存</string>
+    <string name="version">当前版本</string>
     <string name="loading">加载中...</string>
     <string name="loading_end">没有更多了.</string>
 </resources>

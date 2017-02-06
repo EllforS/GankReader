@@ -9,7 +9,6 @@ import com.ellfors.gankreader.R;
 import com.ellfors.gankreader.base.BaseFragment;
 import com.ellfors.gankreader.ui.activity.MainActivity;
 import com.ellfors.gankreader.ui.adapter.ViewPagerAdapter;
-import com.ellfors.gankreader.utils.L;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,8 +50,6 @@ public class ReadFragment extends BaseFragment
     @Override
     public void initEventAndData()
     {
-        L.i("触发initEventAndData()方法");
-
         /* Title */
         tv_title.setText(getResources().getString(R.string.read));
         /* TabLayout */
@@ -62,9 +59,7 @@ public class ReadFragment extends BaseFragment
         list.add(TAG_WEB);
         adapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager(),list);
         viewPager.setAdapter(adapter);
-        viewPager.setCurrentItem(0);
         tabLayout.setupWithViewPager(viewPager);
-        tabLayout.getTabAt(0).select();
     }
 
     @Override

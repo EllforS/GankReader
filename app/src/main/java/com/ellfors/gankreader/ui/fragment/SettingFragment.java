@@ -9,6 +9,7 @@ import com.ellfors.gankreader.R;
 import com.ellfors.gankreader.base.BaseFragment;
 import com.ellfors.gankreader.ui.activity.MainActivity;
 import com.ellfors.gankreader.utils.DataCleanManager;
+import com.ellfors.gankreader.utils.VersionUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -24,6 +25,8 @@ public class SettingFragment extends BaseFragment
     TextView tv_cache_size;
     @BindView(R.id.setting_clean_cache)
     LinearLayout ll_clean_cache;
+    @BindView(R.id.setting_now_version)
+    TextView tv_version;
 
     @Override
     public void initInject()
@@ -51,6 +54,8 @@ public class SettingFragment extends BaseFragment
         {
             e.printStackTrace();
         }
+        /* Version */
+        tv_version.setText(VersionUtils.getAppVersionName(getActivity()));
     }
 
     @OnClick(R.id.hear_open_drawer)

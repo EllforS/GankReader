@@ -55,6 +55,8 @@ public class MainActivity extends BaseActivity
     private FragmentManager fm;
     private FragmentTransaction ft;
 
+    private BaseFragment now_fragment;
+
     @Override
     public void initInject()
     {
@@ -77,7 +79,16 @@ public class MainActivity extends BaseActivity
         fm = getSupportFragmentManager();
         ft = fm.beginTransaction();
         ft.add(R.id.main_frame,readFragment);
+        ft.add(R.id.main_frame,fuliFragment);
+        ft.add(R.id.main_frame,likeFragment);
+        ft.add(R.id.main_frame,settingFragment);
+        ft.add(R.id.main_frame,aboutFragment);
+        ft.hide(fuliFragment);
+        ft.hide(likeFragment);
+        ft.hide(settingFragment);
+        ft.hide(aboutFragment);
         ft.commit();
+        now_fragment = readFragment;
         /* NavigationView */
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener()
         {
@@ -116,8 +127,10 @@ public class MainActivity extends BaseActivity
     {
         fm = getSupportFragmentManager();
         ft = fm.beginTransaction();
-        ft.replace(R.id.main_frame,fragment);
+        ft.hide(now_fragment);
+        ft.show(fragment);
         ft.commit();
+        now_fragment = fragment;
         closeDrawer();
     }
 

@@ -63,7 +63,7 @@ public class LikeFragment extends BaseFragment
     {
         super.onResume();
         /* 初始化 */
-        List<LiteModel> list = DataSupport.findAll(LiteModel.class);
+        List<LiteModel> list = DataSupport.where("id > ?","0").order("id desc").find(LiteModel.class);
         final List<StudyModel> study_list = new ArrayList<>();
         for(int i = 0 ; i < list.size() ; i++)
         {

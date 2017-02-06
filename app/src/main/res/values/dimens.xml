@@ -9,4 +9,5 @@
     <dimen name="title_text_size">17dp</dimen>
     <dimen name="corner_radius">5dp</dimen>
     <dimen name="item_text_size">17dp</dimen>
+    <dimen name="state_bar_size">24dp</dimen>
 </resources>
