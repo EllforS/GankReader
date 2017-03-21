@@ -6,6 +6,10 @@ package com.ellfors.gankreader.http.config;
 public class RetrofitConfig
 {
     /**
+     * Http请求与返回TAG
+     */
+    public static final String HTTP_TAG = "HTTP_TAG";
+    /**
      * Log 的 Tag
      */
     public static final String TAG = "retrofit_log_tag";

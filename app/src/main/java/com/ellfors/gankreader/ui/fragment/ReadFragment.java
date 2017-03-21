@@ -1,14 +1,17 @@
 package com.ellfors.gankreader.ui.fragment;
 
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ellfors.gankreader.R;
 import com.ellfors.gankreader.base.BaseFragment;
 import com.ellfors.gankreader.ui.activity.MainActivity;
 import com.ellfors.gankreader.ui.adapter.ViewPagerAdapter;
+import com.ellfors.gankreader.utils.DensityUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +55,12 @@ public class ReadFragment extends BaseFragment
     {
         /* Title */
         tv_title.setText(getResources().getString(R.string.read));
-        /* TabLayout */
+        /* 为TabLayout添加分割线 */
+        LinearLayout linearLayout = (LinearLayout) tabLayout.getChildAt(0);
+        linearLayout.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
+        linearLayout.setDividerDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.layout_divider_vertical));
+        linearLayout.setDividerPadding(DensityUtils.dp2px(getActivity(),15));
+        /* 装载ViewPager */
         list = new ArrayList<>();
         list.add(TAG_ANDROID);
         list.add(TAG_IOS);

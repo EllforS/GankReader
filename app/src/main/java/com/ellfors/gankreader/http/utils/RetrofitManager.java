@@ -1,9 +1,12 @@
 package com.ellfors.gankreader.http.utils;
 
+import android.util.Log;
+
 import com.ellfors.gankreader.http.config.HttpApi;
 import com.ellfors.gankreader.http.config.RetrofitConfig;
 
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -19,11 +22,23 @@ public class RetrofitManager {
     public static int DEFAULT_TIME;
 
     private static HttpApi httpApi;
+    private HttpLoggingInterceptor loggingInterceptor;
 
     public RetrofitManager()
     {
         BASE_URL = RetrofitConfig.BASE_URL;
         DEFAULT_TIME = RetrofitConfig.OUTTIME;
+
+        loggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger()
+        {
+            @Override
+            public void log(String message)
+            {
+                /* 打印retrofit日志 */
+                Log.d(RetrofitConfig.HTTP_TAG,message);
+            }
+        });
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
     }
 
     /**
@@ -52,6 +67,7 @@ public class RetrofitManager {
     public HttpApi getGsonHttpApi() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.connectTimeout(DEFAULT_TIME, java.util.concurrent.TimeUnit.SECONDS);
+        builder.addInterceptor(loggingInterceptor);
 
         Retrofit retrofit = new Retrofit
                 .Builder()
