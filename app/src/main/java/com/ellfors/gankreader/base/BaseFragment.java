@@ -29,9 +29,9 @@ public abstract class BaseFragment extends Fragment
     private Unbinder unbinder;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
-
         init();
     }
 
@@ -39,7 +39,7 @@ public abstract class BaseFragment extends Fragment
     public void onDestroyView()
     {
         super.onDestroyView();
-        if(unbinder != null)
+        if (unbinder != null)
             unbinder.unbind();
     }
 
@@ -48,8 +48,8 @@ public abstract class BaseFragment extends Fragment
     public View onCreateView(LayoutInflater inflater,
                              @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
-        View view = inflater.inflate(getLayout(),null);
-        unbinder = ButterKnife.bind(this,view);
+        View view = inflater.inflate(getLayout(), null);
+        unbinder = ButterKnife.bind(this, view);
         return view;
     }
 
@@ -85,12 +85,15 @@ public abstract class BaseFragment extends Fragment
 
     /* 初始化注入 */
     public abstract void initInject();
+
     /* 绑定布局 */
     public abstract int getLayout();
+
     /* 初始化事件和数据 */
     public abstract void initEventAndData();
 
-    private void init() {
+    private void init()
+    {
         mContext = getActivity();
         mProgressDialog = new ProgressDialog(mContext);
         mProgressDialog.setMessage(getResources().getString(R.string.progressdialog_toast));
@@ -115,7 +118,8 @@ public abstract class BaseFragment extends Fragment
     /**
      * 显示自定义ProgrssDialog
      */
-    public void showProgressDialog(String msg) {
+    public void showProgressDialog(String msg)
+    {
         mProgressDialog.setMessage(msg);
         mProgressDialog.show();
     }
@@ -123,7 +127,8 @@ public abstract class BaseFragment extends Fragment
     /**
      * 显示默认ProgressDialog
      */
-    public void showDefaultProgressDialog() {
+    public void showDefaultProgressDialog()
+    {
         mProgressDialog.setMessage(getResources().getString(R.string.progressdialog_toast));
         mProgressDialog.show();
     }
@@ -131,8 +136,10 @@ public abstract class BaseFragment extends Fragment
     /**
      * 隐藏ProgressDialog
      */
-    public void dismissProgressDialog() {
-        if (mProgressDialog != null) {
+    public void dismissProgressDialog()
+    {
+        if (mProgressDialog != null)
+        {
             mProgressDialog.dismiss();
         }
     }
@@ -140,10 +147,14 @@ public abstract class BaseFragment extends Fragment
     /**
      * 判断ProgressDialog是否为显示状态
      */
-    public boolean progressDialogIsShowing() {
-        if (mProgressDialog.isShowing()) {
+    public boolean progressDialogIsShowing()
+    {
+        if (mProgressDialog.isShowing())
+        {
             return true;
-        } else {
+        }
+        else
+        {
             return false;
         }
     }
@@ -151,98 +162,112 @@ public abstract class BaseFragment extends Fragment
     /**
      * 打印文本 长时间
      */
-    public void showToast(String msg) {
+    public void showToast(String msg)
+    {
         AppUtils.showToast(mContext, msg);
     }
 
     /**
      * 打印文本 短时间
      */
-    public void showToast(int resId) {
+    public void showToast(int resId)
+    {
         AppUtils.showToast(mContext, resId);
     }
 
     /**
      * 显示视图
      */
-    public void showView(View view) {
+    public void showView(View view)
+    {
         AppUtils.showView(view);
     }
 
     /**
      * 隐藏视图
      */
-    public void hideViewGone(View view) {
+    public void hideViewGone(View view)
+    {
         AppUtils.hideViewGone(view);
     }
 
     /**
      * 隐藏视图 保留位置
      */
-    public void hideViewInvisible(View view) {
+    public void hideViewInvisible(View view)
+    {
         AppUtils.hideViewInvisible(view);
     }
 
     /**
      * 判断视图是否显示
      */
-    public boolean isShowView(View view) {
+    public boolean isShowView(View view)
+    {
         return AppUtils.isShowView(view);
     }
 
     /**
      * 写入SharedPreferences数据
      */
-    public void setStringSharedPreferences(String key, String value) {
+    public void setStringSharedPreferences(String key, String value)
+    {
         AppUtils.setStringSharedPreferences(mContext, key, value);
     }
 
     /**
      * 读取SharedPreferences数据
      */
-    public String getStringSharedPreferences(String key, String defaultValue) {
+    public String getStringSharedPreferences(String key, String defaultValue)
+    {
         return AppUtils.getStringSharedPreferences(mContext, key, defaultValue);
     }
 
     /**
      * 判断是否为中文版
      */
-    public boolean isZh() {
+    public boolean isZh()
+    {
         return AppUtils.isZh(mContext);
     }
 
     /**
      * 检查是否存在SDCard
      */
-    public boolean hasSdcard() {
+    public boolean hasSdcard()
+    {
         return AppUtils.hasSdcard();
     }
 
     /**
      * 验证是否存在可用网络
      */
-    public boolean CheckNetworkState() {
+    public boolean CheckNetworkState()
+    {
         return AppUtils.CheckNetworkState(mContext);
     }
 
     /**
      * 验证网络状态 0 存在wifi网络， 1 存在2/3G网络，2无网络连接
      */
-    public int currentNetwork() {
+    public int currentNetwork()
+    {
         return AppUtils.currentNetwork(mContext);
     }
 
     /**
      * 获取屏幕高度像素
      */
-    public int getDisplayHeight() {
+    public int getDisplayHeight()
+    {
         return AppUtils.getDisplayHeight((Activity) mContext);
     }
 
     /**
      * 获取屏幕宽度像素
      */
-    public int getDisplayWidth() {
+    public int getDisplayWidth()
+    {
         return AppUtils.getDisplayWidth((Activity) mContext);
     }
 

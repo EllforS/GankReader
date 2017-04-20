@@ -19,8 +19,8 @@ import static com.ellfors.gankreader.R.styleable.FNRadioGroup;
 /**
  * 可换行的RadioGroup
  */
-public class ExRadioGroup extends ViewGroup {
-
+public class ExRadioGroup extends ViewGroup
+{
     /**
      * 没有ID
      */
@@ -78,7 +78,8 @@ public class ExRadioGroup extends ViewGroup {
     /**
      * 默认构造方法
      */
-    public ExRadioGroup(Context context) {
+    public ExRadioGroup(Context context)
+    {
         super(context);
         init();
 
@@ -87,14 +88,16 @@ public class ExRadioGroup extends ViewGroup {
     /**
      * XML实例构造方法
      */
-    public ExRadioGroup(Context context, AttributeSet attrs) {
+    public ExRadioGroup(Context context, AttributeSet attrs)
+    {
         super(context, attrs);
 
         // 获取自定义属性checkedButton
         TypedArray attributes = context.obtainStyledAttributes(attrs, FNRadioGroup);
         // 读取默认选中id
         int value = attributes.getResourceId(R.styleable.FNRadioGroup_checkedButton, NO_ID);
-        if (value != NO_ID) {
+        if (value != NO_ID)
+        {
             // 如果为设置checkButton属性，保持默认值NO_ID
             mCheckedId = value;
 
@@ -102,28 +105,32 @@ public class ExRadioGroup extends ViewGroup {
         // 读取子控件左边距
 
         childMarginLeft = attributes.getLayoutDimension(R.styleable.FNRadioGroup_childMarginLeft, childMarginLeft);
-        if (childMarginLeft < 0) {
+        if (childMarginLeft < 0)
+        {
             childMarginLeft = 0;
 
         }
         // 读取子控件右边距
 
         childMarginRight = attributes.getLayoutDimension(R.styleable.FNRadioGroup_childMarginRight, childMarginRight);
-        if (childMarginRight < 0) {
+        if (childMarginRight < 0)
+        {
             childMarginRight = 0;
 
         }
         // 读取子控件上边距
 
         childMarginTop = attributes.getLayoutDimension(R.styleable.FNRadioGroup_childMarginTop, childMarginTop);
-        if (childMarginTop < 0) {
+        if (childMarginTop < 0)
+        {
             childMarginTop = 0;
 
         }
         // 读取子控件下边距
 
         childMarginBottom = attributes.getLayoutDimension(R.styleable.FNRadioGroup_childMarginBottom, childMarginBottom);
-        if (childMarginBottom < 0) {
+        if (childMarginBottom < 0)
+        {
             childMarginBottom = 0;
 
         }
@@ -141,7 +148,8 @@ public class ExRadioGroup extends ViewGroup {
      * @param r 右边距
      * @param b 下边距
      */
-    public void setChildMargin(int l, int t, int r, int b) {
+    public void setChildMargin(int l, int t, int r, int b)
+    {
         childMarginTop = t;
         childMarginLeft = l;
         childMarginRight = r;
@@ -152,14 +160,18 @@ public class ExRadioGroup extends ViewGroup {
     /**
      * 选中子控件为id的组件为选中项
      */
-    public void check(int id) {
-        if (id != -1 && (id == mCheckedId)) {
+    public void check(int id)
+    {
+        if (id != -1 && (id == mCheckedId))
+        {
             return;
         }
-        if (mCheckedId != -1) {
+        if (mCheckedId != -1)
+        {
             setCheckedStateForView(mCheckedId, false);
         }
-        if (id != -1) {
+        if (id != -1)
+        {
             setCheckedStateForView(id, true);
         }
         setCheckedId(id);
@@ -171,14 +183,16 @@ public class ExRadioGroup extends ViewGroup {
      *
      * @return 当前选中子控件的id
      */
-    public int getCheckedRadioButtonId() {
+    public int getCheckedRadioButtonId()
+    {
         return mCheckedId;
     }
 
     /**
      * 清除当前选中项
      */
-    public void clearCheck() {
+    public void clearCheck()
+    {
         check(-1);
     }
 
@@ -187,14 +201,16 @@ public class ExRadioGroup extends ViewGroup {
      *
      * @param listener 选中改变监听
      */
-    public void setOnCheckedChangeListener(OnCheckedChangeListener listener) {
+    public void setOnCheckedChangeListener(OnCheckedChangeListener listener)
+    {
         mOnCheckedChangeListener = listener;
     }
 
     /**
      * 布局参数
      */
-    public static class LayoutParams extends ViewGroup.LayoutParams {
+    public static class LayoutParams extends ViewGroup.LayoutParams
+    {
         /**
          * XML构造
          *
@@ -203,7 +219,8 @@ public class ExRadioGroup extends ViewGroup {
          */
 
 
-        public LayoutParams(Context c, AttributeSet attrs) {
+        public LayoutParams(Context c, AttributeSet attrs)
+        {
             super(c, attrs);
 
         }
@@ -216,7 +233,8 @@ public class ExRadioGroup extends ViewGroup {
          */
 
 
-        public LayoutParams(int w, int h) {
+        public LayoutParams(int w, int h)
+        {
             super(w, h);
 
         }
@@ -228,7 +246,8 @@ public class ExRadioGroup extends ViewGroup {
          */
 
 
-        public LayoutParams(ViewGroup.LayoutParams p) {
+        public LayoutParams(ViewGroup.LayoutParams p)
+        {
             super(p);
 
         }
@@ -237,18 +256,25 @@ public class ExRadioGroup extends ViewGroup {
         @Override
 
 
-        protected void setBaseAttributes(TypedArray a, int widthAttr, int heightAttr) {
-            if (a.hasValue(widthAttr)) {
+        protected void setBaseAttributes(TypedArray a, int widthAttr, int heightAttr)
+        {
+            if (a.hasValue(widthAttr))
+            {
                 width = a.getLayoutDimension(widthAttr, "layout_width");
 
-            } else {
+            }
+            else
+            {
                 width = WRAP_CONTENT;
 
             }
-            if (a.hasValue(heightAttr)) {
+            if (a.hasValue(heightAttr))
+            {
                 height = a.getLayoutDimension(heightAttr, "layout_height");
 
-            } else {
+            }
+            else
+            {
                 height = WRAP_CONTENT;
 
             }
@@ -264,7 +290,8 @@ public class ExRadioGroup extends ViewGroup {
      */
 
 
-    public interface OnCheckedChangeListener {
+    public interface OnCheckedChangeListener
+    {
         /**
          * 选中项目改变回调
          *
@@ -284,7 +311,8 @@ public class ExRadioGroup extends ViewGroup {
     /**
      * 二级构造方法
      */
-    private void init() {
+    private void init()
+    {
 
         // 初始化子控件选择监听
         mChildOnCheckedChangeListener = new CheckedStateTracker();
@@ -297,7 +325,8 @@ public class ExRadioGroup extends ViewGroup {
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
+    {
         ViewGroup.LayoutParams params = getLayoutParams();
         int pl = getPaddingLeft();
         int pr = getPaddingRight();
@@ -308,35 +337,44 @@ public class ExRadioGroup extends ViewGroup {
         measureChildren(widthMeasureSpec, heightMeasureSpec);
         // 计算Tag最大高度(以此作为所有tag的高度)
         childHeight = 0;
-        for (int i = 0; i < getChildCount(); i++) {
+        for (int i = 0; i < getChildCount(); i++)
+        {
             int cmh = getChildAt(i).getMeasuredHeight();
-            if (cmh > childHeight) {
+            if (cmh > childHeight)
+            {
                 childHeight = cmh;
 
             }
 
         }
         // 计算本视图
-        if (params.height != LayoutParams.WRAP_CONTENT) {
+        if (params.height != LayoutParams.WRAP_CONTENT)
+        {
             // 非内容匹配的情况下
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-        } else {
+        }
+        else
+        {
             // 计算视图高度
             int currentHeight = pt;
             int currentWidth = pl;
-            for (int i = 0; i < getChildCount(); i++) {
+            for (int i = 0; i < getChildCount(); i++)
+            {
                 View child = getChildAt(i);
                 int childWidth = child.getMeasuredWidth();
                 // 本视图加入行中是否会超过视图宽度
 
-                if (currentWidth + childWidth + childMarginLeft + childMarginRight > width - pl - pr) {
+                if (currentWidth + childWidth + childMarginLeft + childMarginRight > width - pl - pr)
+                {
                     // 累加行高读
                     currentHeight += childMarginTop + childMarginBottom + childHeight;
                     currentWidth = pl;
                     currentWidth += childMarginLeft + childMarginRight + childWidth;
 
-                } else {
+                }
+                else
+                {
                     // 累加行宽度
                     currentWidth += childMarginLeft + childMarginRight + childWidth;
 
@@ -352,7 +390,8 @@ public class ExRadioGroup extends ViewGroup {
     }
 
     @Override
-    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+    protected void onLayout(boolean changed, int l, int t, int r, int b)
+    {
         int pl = getPaddingLeft();
         int pr = getPaddingRight();
         int pt = getPaddingTop();
@@ -361,12 +400,14 @@ public class ExRadioGroup extends ViewGroup {
         // 布局Tag视图
         int currentHeight = pt;
         int currentWidth = pl;
-        for (int i = 0; i < getChildCount(); i++) {
+        for (int i = 0; i < getChildCount(); i++)
+        {
             View child = getChildAt(i);
             int childWidth = child.getMeasuredWidth();
             // 本视图加入行中是否会超过视图宽度
 
-            if (currentWidth + childWidth + childMarginLeft + childMarginRight > width - pl - pr) {
+            if (currentWidth + childWidth + childMarginLeft + childMarginRight > width - pl - pr)
+            {
                 // 累加行高读
                 currentHeight += childMarginTop + childMarginBottom + childHeight;
                 currentWidth = pl;
@@ -375,7 +416,9 @@ public class ExRadioGroup extends ViewGroup {
                         currentWidth + childMarginLeft + childWidth, currentHeight + childMarginTop + childHeight);
                 currentWidth += childMarginLeft + childMarginRight + childWidth;
 
-            } else {
+            }
+            else
+            {
                 // 布局视图
                 child.layout(currentWidth + childMarginLeft, currentHeight + childMarginTop,
                         currentWidth + childMarginLeft + childWidth, currentHeight + childMarginTop + childHeight);
@@ -392,7 +435,8 @@ public class ExRadioGroup extends ViewGroup {
     @Override
 
 
-    public void setOnHierarchyChangeListener(OnHierarchyChangeListener listener) {
+    public void setOnHierarchyChangeListener(OnHierarchyChangeListener listener)
+    {
         // 设置子空间添加移除监听
         mPassThroughListener.mOnHierarchyChangeListener = listener;
 
@@ -402,9 +446,11 @@ public class ExRadioGroup extends ViewGroup {
     @Override
 
 
-    protected void onFinishInflate() {
+    protected void onFinishInflate()
+    {
         super.onFinishInflate();
-        if (mCheckedId != NO_ID) {
+        if (mCheckedId != NO_ID)
+        {
             // 如果读取到选中项,设置并存储选中项
             mProtectFromCheckedChange = true;
             setCheckedStateForView(mCheckedId, true);
@@ -416,12 +462,16 @@ public class ExRadioGroup extends ViewGroup {
     }
 
     @Override
-    public void addView(View child, int index, ViewGroup.LayoutParams params) {
-        if (child instanceof RadioButton) {
+    public void addView(View child, int index, ViewGroup.LayoutParams params)
+    {
+        if (child instanceof RadioButton)
+        {
             final RadioButton button = (RadioButton) child;
-            if (button.isChecked()) {
+            if (button.isChecked())
+            {
                 mProtectFromCheckedChange = true;
-                if (mCheckedId != -1) {
+                if (mCheckedId != -1)
+                {
                     setCheckedStateForView(mCheckedId, false);
                 }
                 mProtectFromCheckedChange = false;
@@ -432,55 +482,68 @@ public class ExRadioGroup extends ViewGroup {
         super.addView(child, index, params);
     }
 
-    private void setCheckedId(int id) {
+    private void setCheckedId(int id)
+    {
         mCheckedId = id;
-        if (mOnCheckedChangeListener != null) {
+        if (mOnCheckedChangeListener != null)
+        {
             mOnCheckedChangeListener.onCheckedChanged(this, mCheckedId);
         }
     }
 
-    private void setCheckedStateForView(int viewId, boolean checked) {
+    private void setCheckedStateForView(int viewId, boolean checked)
+    {
         View checkedView = findViewById(viewId);
-        if (checkedView != null && checkedView instanceof RadioButton) {
+        if (checkedView != null && checkedView instanceof RadioButton)
+        {
             ((RadioButton) checkedView).setChecked(checked);
         }
     }
 
     @Override
-    public LayoutParams generateLayoutParams(AttributeSet attrs) {
+    public LayoutParams generateLayoutParams(AttributeSet attrs)
+    {
         return new ExRadioGroup.LayoutParams(getContext(), attrs);
     }
 
     @Override
-    protected boolean checkLayoutParams(ViewGroup.LayoutParams p) {
+    protected boolean checkLayoutParams(ViewGroup.LayoutParams p)
+    {
         return p instanceof RadioGroup.LayoutParams;
     }
 
     @Override
-    protected LayoutParams generateDefaultLayoutParams() {
+    protected LayoutParams generateDefaultLayoutParams()
+    {
         return new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
     }
 
     @Override
-    public void onInitializeAccessibilityEvent(AccessibilityEvent event) {
+    public void onInitializeAccessibilityEvent(AccessibilityEvent event)
+    {
         super.onInitializeAccessibilityEvent(event);
         event.setClassName(RadioGroup.class.getName());
     }
 
     @Override
-    public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
+    public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info)
+    {
         super.onInitializeAccessibilityNodeInfo(info);
         info.setClassName(RadioGroup.class.getName());
     }
 
-    private class CheckedStateTracker implements CompoundButton.OnCheckedChangeListener {
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+    private class CheckedStateTracker implements CompoundButton.OnCheckedChangeListener
+    {
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+        {
             // prevents from infinite recursion
-            if (mProtectFromCheckedChange) {
+            if (mProtectFromCheckedChange)
+            {
                 return;
             }
             mProtectFromCheckedChange = true;
-            if (mCheckedId != -1) {
+            if (mCheckedId != -1)
+            {
                 setCheckedStateForView(mCheckedId, false);
             }
             mProtectFromCheckedChange = false;
@@ -489,30 +552,38 @@ public class ExRadioGroup extends ViewGroup {
         }
     }
 
-    private class PassThroughHierarchyChangeListener implements ViewGroup.OnHierarchyChangeListener {
+    private class PassThroughHierarchyChangeListener implements ViewGroup.OnHierarchyChangeListener
+    {
         private ViewGroup.OnHierarchyChangeListener mOnHierarchyChangeListener;
 
-        public void onChildViewAdded(View parent, View child) {
-            if (parent == ExRadioGroup.this && child instanceof RadioButton) {
+        public void onChildViewAdded(View parent, View child)
+        {
+            if (parent == ExRadioGroup.this && child instanceof RadioButton)
+            {
                 int id = child.getId();
                 // generates an id if it's missing
-                if (id == View.NO_ID) {
+                if (id == View.NO_ID)
+                {
                     id = generateViewId();
                     child.setId(id);
                 }
                 ((RadioButton) child).setOnCheckedChangeListener(mChildOnCheckedChangeListener);
             }
 
-            if (mOnHierarchyChangeListener != null) {
+            if (mOnHierarchyChangeListener != null)
+            {
                 mOnHierarchyChangeListener.onChildViewAdded(parent, child);
             }
         }
 
-        public void onChildViewRemoved(View parent, View child) {
-            if (parent == ExRadioGroup.this && child instanceof RadioButton) {
+        public void onChildViewRemoved(View parent, View child)
+        {
+            if (parent == ExRadioGroup.this && child instanceof RadioButton)
+            {
                 ((RadioButton) child).setOnCheckedChangeListener(null);
             }
-            if (mOnHierarchyChangeListener != null) {
+            if (mOnHierarchyChangeListener != null)
+            {
                 mOnHierarchyChangeListener.onChildViewRemoved(parent, child);
             }
         }

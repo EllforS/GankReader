@@ -31,9 +31,9 @@ public class FuliPresenterImpl extends BasePresenterImpl<FuliContract.View> impl
         page = 1;
         Subscription sub = manager
                 .getGsonHttpApi()
-                .getFuLi(limit,page)
-                .compose(RxUtils.<List<FuliModel>>handleResult())
-                .compose(RxUtils.<List<FuliModel>>rxSchedulerHelper())
+                .getFuLi(limit, page)
+                .compose(RxUtils.handleResult())
+                .compose(RxUtils.rxSchedulerHelper())
                 .subscribe(new SimpleSubscriber<List<FuliModel>>()
                 {
                     @Override
@@ -57,9 +57,9 @@ public class FuliPresenterImpl extends BasePresenterImpl<FuliContract.View> impl
         page += 1;
         Subscription sub = manager
                 .getGsonHttpApi()
-                .getFuLi(limit,page)
-                .compose(RxUtils.<List<FuliModel>>handleResult())
-                .compose(RxUtils.<List<FuliModel>>rxSchedulerHelper())
+                .getFuLi(limit, page)
+                .compose(RxUtils.handleResult())
+                .compose(RxUtils.rxSchedulerHelper())
                 .subscribe(new SimpleSubscriber<List<FuliModel>>()
                 {
                     @Override

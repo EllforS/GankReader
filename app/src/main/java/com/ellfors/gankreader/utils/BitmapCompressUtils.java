@@ -22,12 +22,14 @@ public class BitmapCompressUtils
     /**
      * 计算图片的缩放值
      */
-    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight)
+    {
         final int height = options.outHeight;
         final int width = options.outWidth;
         int inSampleSize = 1;
 
-        if (height > reqHeight || width > reqWidth) {
+        if (height > reqHeight || width > reqWidth)
+        {
             final int heightRatio = Math.round((float) height / (float) reqHeight);
             final int widthRatio = Math.round((float) width / (float) reqWidth);
             inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
@@ -38,7 +40,8 @@ public class BitmapCompressUtils
     /**
      * 根据路径获得图片并压缩，返回bitmap用于显示
      */
-    public static Bitmap getSmallBitmap(String filePath) {
+    public static Bitmap getSmallBitmap(String filePath)
+    {
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(filePath, options);
@@ -53,7 +56,8 @@ public class BitmapCompressUtils
     /**
      * 把bitmap转换成String
      */
-    public static String bitmapToString(String filePath) {
+    public static String bitmapToString(String filePath)
+    {
         Bitmap bm = getSmallBitmap(filePath);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bm.compress(Bitmap.CompressFormat.JPEG, 40, baos);
@@ -69,7 +73,8 @@ public class BitmapCompressUtils
         Bitmap bm = getSmallBitmap(filePath);
 
         int degree = readPictureDegree(filePath);
-        if (degree != 0) {
+        if (degree != 0)
+        {
             //旋转照片角度
             bm = rotateBitmap(bm, degree);
         }
@@ -80,17 +85,21 @@ public class BitmapCompressUtils
         String name = System.currentTimeMillis() + ".jpg";
 
         File f = new File(path);
-        if (!f.exists()) {
+        if (!f.exists())
+        {
             f.mkdirs();
         }
 
         File outputFile = new File(path, name);
-        try {
+        try
+        {
             FileOutputStream out = new FileOutputStream(outputFile);
             bm.compress(Bitmap.CompressFormat.JPEG, 100, out);
             out.flush();
             out.close();
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
 
         }
 
@@ -100,14 +109,17 @@ public class BitmapCompressUtils
     /**
      * 判断照片角度
      */
-    public static int readPictureDegree(String path) {
+    public static int readPictureDegree(String path)
+    {
         int degree = 0;
-        try {
+        try
+        {
             ExifInterface exifInterface = new ExifInterface(path);
             int orientation = exifInterface.getAttributeInt(
                     ExifInterface.TAG_ORIENTATION,
                     ExifInterface.ORIENTATION_NORMAL);
-            switch (orientation) {
+            switch (orientation)
+            {
                 case ExifInterface.ORIENTATION_ROTATE_90:
                     degree = 90;
                     break;
@@ -118,7 +130,9 @@ public class BitmapCompressUtils
                     degree = 270;
                     break;
             }
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             e.printStackTrace();
         }
         return degree;
@@ -127,8 +141,10 @@ public class BitmapCompressUtils
     /**
      * 旋转照片
      */
-    public static Bitmap rotateBitmap(Bitmap bitmap, int degress) {
-        if (bitmap != null) {
+    public static Bitmap rotateBitmap(Bitmap bitmap, int degress)
+    {
+        if (bitmap != null)
+        {
             Matrix m = new Matrix();
             m.postRotate(degress);
             bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(),
@@ -147,13 +163,19 @@ public class BitmapCompressUtils
     {
         String filePath = Environment.getExternalStorageDirectory() + savePath;
         File file = new File(filePath);
-        if (!file.exists()) {
+        if (!file.exists())
+        {
             return false;
-        } else {
-            if (file.isFile()) {
+        }
+        else
+        {
+            if (file.isFile())
+            {
                 // 为文件时调用删除文件方法
                 return deleteFile(filePath);
-            } else {
+            }
+            else
+            {
                 // 为目录时调用删除目录方法
                 return deleteDirectory(filePath);
             }
@@ -162,12 +184,15 @@ public class BitmapCompressUtils
 
     /**
      * 删除单个文件
-     * @param   filePath    被删除文件的文件名
+     *
+     * @param filePath 被删除文件的文件名
      * @return 文件删除成功返回true，否则返回false
      */
-    public static boolean deleteFile(String filePath) {
+    public static boolean deleteFile(String filePath)
+    {
         File file = new File(filePath);
-        if (file.isFile() && file.exists()) {
+        if (file.isFile() && file.exists())
+        {
             return file.delete();
         }
         return false;
@@ -175,34 +200,45 @@ public class BitmapCompressUtils
 
     /**
      * 删除文件夹以及目录下的文件
-     * @param   filePath 被删除目录的文件路径
-     * @return  目录删除成功返回true，否则返回false
+     *
+     * @param filePath 被删除目录的文件路径
+     * @return 目录删除成功返回true，否则返回false
      */
-    public static boolean deleteDirectory(String filePath) {
+    public static boolean deleteDirectory(String filePath)
+    {
         boolean flag = false;
         //如果filePath不以文件分隔符结尾，自动添加文件分隔符
-        if (!filePath.endsWith(File.separator)) {
+        if (!filePath.endsWith(File.separator))
+        {
             filePath = filePath + File.separator;
         }
         File dirFile = new File(filePath);
-        if (!dirFile.exists() || !dirFile.isDirectory()) {
+        if (!dirFile.exists() || !dirFile.isDirectory())
+        {
             return false;
         }
         flag = true;
         File[] files = dirFile.listFiles();
         //遍历删除文件夹下的所有文件(包括子目录)
-        for (int i = 0; i < files.length; i++) {
-            if (files[i].isFile()) {
+        for (int i = 0; i < files.length; i++)
+        {
+            if (files[i].isFile())
+            {
                 //删除子文件
                 flag = deleteFile(files[i].getAbsolutePath());
-                if (!flag) break;
-            } else {
+                if (!flag)
+                    break;
+            }
+            else
+            {
                 //删除子目录
                 flag = deleteDirectory(files[i].getAbsolutePath());
-                if (!flag) break;
+                if (!flag)
+                    break;
             }
         }
-        if (!flag) return false;
+        if (!flag)
+            return false;
         //删除当前空目录
         return dirFile.delete();
     }

@@ -9,18 +9,22 @@ import java.util.Date;
 /**
  * 时间工具类
  */
-public class TimeUtil {
-
-    private final static ThreadLocal<SimpleDateFormat> dateFormater = new ThreadLocal<SimpleDateFormat>() {
+public class TimeUtil
+{
+    private final static ThreadLocal<SimpleDateFormat> dateFormater = new ThreadLocal<SimpleDateFormat>()
+    {
         @Override
-        protected SimpleDateFormat initialValue() {
+        protected SimpleDateFormat initialValue()
+        {
             return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         }
     };
 
-    private final static ThreadLocal<SimpleDateFormat> dateFormater2 = new ThreadLocal<SimpleDateFormat>() {
+    private final static ThreadLocal<SimpleDateFormat> dateFormater2 = new ThreadLocal<SimpleDateFormat>()
+    {
         @Override
-        protected SimpleDateFormat initialValue() {
+        protected SimpleDateFormat initialValue()
+        {
             return new SimpleDateFormat("yyyy-MM-dd");
         }
     };
@@ -31,10 +35,14 @@ public class TimeUtil {
      * @param sdate
      * @return
      */
-    public static Date toDate(String sdate) {
-        try {
+    public static Date toDate(String sdate)
+    {
+        try
+        {
             return dateFormater.get().parse(sdate);
-        } catch (ParseException e) {
+        }
+        catch (ParseException e)
+        {
             return null;
         }
     }
@@ -45,10 +53,14 @@ public class TimeUtil {
      * @param sdate
      * @return
      */
-    public static Date toDate_2(String sdate) {
-        try {
+    public static Date toDate_2(String sdate)
+    {
+        try
+        {
             return dateFormater2.get().parse(sdate);
-        } catch (ParseException e) {
+        }
+        catch (ParseException e)
+        {
             return null;
         }
     }
@@ -59,10 +71,12 @@ public class TimeUtil {
      * @param sdate
      * @return
      */
-    public static String friendly_time(String sdate) {
+    public static String friendly_time(String sdate)
+    {
         Date time = toDate(sdate);
 
-        if (time == null) {
+        if (time == null)
+        {
             return "Unknown";
         }
 
@@ -72,17 +86,24 @@ public class TimeUtil {
         // 判断是否是同一天
         String curDate = dateFormater2.get().format(cal.getTime());
         String paramDate = dateFormater2.get().format(time);
-        if (curDate.equals(paramDate)) {
+        if (curDate.equals(paramDate))
+        {
             int hour = (int) ((cal.getTimeInMillis() - time.getTime()) / 3600000);
             int minute = (int) ((cal.getTimeInMillis() - time.getTime()) / 60000);
 
-            if (hour == 0) {
-                if (minute < 1) {
+            if (hour == 0)
+            {
+                if (minute < 1)
+                {
                     ftime = "刚刚";
-                } else {
+                }
+                else
+                {
                     ftime = Math.max((cal.getTimeInMillis() - time.getTime()) / 60000, 1) + "分钟前";
                 }
-            } else {
+            }
+            else
+            {
                 ftime = hour + "小时前";
             }
             return ftime;
@@ -92,20 +113,32 @@ public class TimeUtil {
         long ct = cal.getTimeInMillis() / 86400000;
         int days = (int) (ct - lt);
 
-        if (days == 0) {
+        if (days == 0)
+        {
             int hour = (int) ((cal.getTimeInMillis() - time.getTime()) / 3600000);
-            if (hour == 0) {
+            if (hour == 0)
+            {
                 ftime = Math.max((cal.getTimeInMillis() - time.getTime()) / 60000, 1) + "分钟前";
-            } else {
+            }
+            else
+            {
                 ftime = hour + "小时前";
             }
-        } else if (days == 1) {
+        }
+        else if (days == 1)
+        {
             ftime = "昨天";
-        } else if (days == 2) {
+        }
+        else if (days == 2)
+        {
             ftime = "前天";
-        } else if (days > 2 && days <= 10) {
+        }
+        else if (days > 2 && days <= 10)
+        {
             ftime = days + "天前";
-        } else if (days > 10) {
+        }
+        else if (days > 10)
+        {
             ftime = dateFormater2.get().format(time);
         }
         return ftime;
@@ -119,22 +152,30 @@ public class TimeUtil {
      * @throws ParseException
      * @throws Exception
      */
-    public String dateToCnDate(String date) {
+    public String dateToCnDate(String date)
+    {
 
         String result = "";
         String[] cnDate = new String[]{"〇", "一", "二", "三", "四", "五", "六", "七", "八", "九"};
         String ten = "十";
         String[] dateStr = date.split("-");
-        for (int i = 0; i < dateStr.length; i++) {
-            for (int j = 0; j < dateStr[i].length(); j++) {
+        for (int i = 0; i < dateStr.length; i++)
+        {
+            for (int j = 0; j < dateStr[i].length(); j++)
+            {
                 String charStr = dateStr[i];
                 String str = String.valueOf(charStr.charAt(j));
-                if (charStr.length() == 2) {
-                    if (charStr.equals("10")) {
+                if (charStr.length() == 2)
+                {
+                    if (charStr.equals("10"))
+                    {
                         result += ten;
                         break;
-                    } else {
-                        if (j == 0) {
+                    }
+                    else
+                    {
+                        if (j == 0)
+                        {
                             if (charStr.charAt(j) == '1')
                                 result += ten;
                             else if (charStr.charAt(j) == '0')
@@ -142,26 +183,32 @@ public class TimeUtil {
                             else
                                 result += cnDate[Integer.parseInt(str)] + ten;
                         }
-                        if (j == 1) {
+                        if (j == 1)
+                        {
                             if (charStr.charAt(j) == '0')
                                 result += "";
                             else
                                 result += cnDate[Integer.parseInt(str)];
                         }
                     }
-                } else {
+                }
+                else
+                {
                     result += cnDate[Integer.parseInt(str)];
                 }
             }
-            if (i == 0) {
+            if (i == 0)
+            {
                 result += "年";
                 continue;
             }
-            if (i == 1) {
+            if (i == 1)
+            {
                 result += "月";
                 continue;
             }
-            if (i == 2) {
+            if (i == 2)
+            {
                 result += "日";
                 continue;
             }
@@ -175,7 +222,8 @@ public class TimeUtil {
      * @param date
      * @return
      */
-    public static String formatDate(Date date) {
+    public static String formatDate(Date date)
+    {
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return format.format(date);
     }
@@ -183,7 +231,8 @@ public class TimeUtil {
     /**
      * 获取当前时间
      */
-    public static String getNowTime() {
+    public static String getNowTime()
+    {
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH) + 1;

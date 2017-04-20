@@ -42,7 +42,7 @@ public abstract class BaseActivity extends AppCompatActivity
     protected void onDestroy()
     {
         super.onDestroy();
-        if(unbinder != null)
+        if (unbinder != null)
             unbinder.unbind();
     }
 
@@ -55,11 +55,11 @@ public abstract class BaseActivity extends AppCompatActivity
         {
             case AppConfig.MODE_DAY:
                 getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                AppUtils.setStringSharedPreferences(mContext,AppConfig.DAY_NIGHT_MODE, AppConfig.MODE_DAY);
+                AppUtils.setStringSharedPreferences(mContext, AppConfig.DAY_NIGHT_MODE, AppConfig.MODE_DAY);
                 break;
             case AppConfig.MODE_NIGHT:
                 getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                AppUtils.setStringSharedPreferences(mContext,AppConfig.DAY_NIGHT_MODE,AppConfig.MODE_NIGHT);
+                AppUtils.setStringSharedPreferences(mContext, AppConfig.DAY_NIGHT_MODE, AppConfig.MODE_NIGHT);
                 break;
             default:
                 break;
@@ -88,8 +88,10 @@ public abstract class BaseActivity extends AppCompatActivity
 
     /* 初始化注入 */
     public abstract void initInject();
+
     /* 绑定布局 */
     public abstract int getLayout();
+
     /* 初始化事件和数据 */
     public abstract void initEventAndData();
 
@@ -126,7 +128,7 @@ public abstract class BaseActivity extends AppCompatActivity
     }
 
     /**
-     *  显示默认ProgressDialog
+     * 显示默认ProgressDialog
      */
     public void showDefaultProgressDialog()
     {
@@ -139,7 +141,8 @@ public abstract class BaseActivity extends AppCompatActivity
      */
     public void dismissProgressDialog()
     {
-        if (mProgressDialog != null) {
+        if (mProgressDialog != null)
+        {
             mProgressDialog.dismiss();
         }
     }
@@ -149,9 +152,12 @@ public abstract class BaseActivity extends AppCompatActivity
      */
     public boolean progressDialogIsShowing()
     {
-        if (mProgressDialog.isShowing()) {
+        if (mProgressDialog.isShowing())
+        {
             return true;
-        } else {
+        }
+        else
+        {
             return false;
         }
     }
@@ -161,7 +167,7 @@ public abstract class BaseActivity extends AppCompatActivity
      */
     public void showToast(String msg)
     {
-        AppUtils.showToast(mContext,msg);
+        AppUtils.showToast(mContext, msg);
     }
 
     /**
@@ -169,7 +175,7 @@ public abstract class BaseActivity extends AppCompatActivity
      */
     public void showToast(int resId)
     {
-        AppUtils.showToast(mContext,resId);
+        AppUtils.showToast(mContext, resId);
     }
 
     /**
@@ -209,7 +215,7 @@ public abstract class BaseActivity extends AppCompatActivity
      */
     public void setStringSharedPreferences(String key, String value)
     {
-        AppUtils.setStringSharedPreferences(mContext,key,value);
+        AppUtils.setStringSharedPreferences(mContext, key, value);
     }
 
     /**
@@ -217,7 +223,7 @@ public abstract class BaseActivity extends AppCompatActivity
      */
     public String getStringSharedPreferences(String key, String defaultValue)
     {
-        return AppUtils.getStringSharedPreferences(mContext,key,defaultValue);
+        return AppUtils.getStringSharedPreferences(mContext, key, defaultValue);
     }
 
     /**
@@ -257,7 +263,7 @@ public abstract class BaseActivity extends AppCompatActivity
      */
     public int getDisplayHeight()
     {
-        return AppUtils.getDisplayHeight((Activity)mContext);
+        return AppUtils.getDisplayHeight((Activity) mContext);
     }
 
     /**
@@ -265,6 +271,6 @@ public abstract class BaseActivity extends AppCompatActivity
      */
     public int getDisplayWidth()
     {
-        return AppUtils.getDisplayWidth((Activity)mContext);
+        return AppUtils.getDisplayWidth((Activity) mContext);
     }
 }

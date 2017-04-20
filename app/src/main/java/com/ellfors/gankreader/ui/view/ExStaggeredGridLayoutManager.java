@@ -8,9 +8,10 @@ import android.view.ViewGroup;
 /**
  * 不规则排列（类似于瀑布流）的布局管理器
  */
-public class ExStaggeredGridLayoutManager extends StaggeredGridLayoutManager {
-
-    public ExStaggeredGridLayoutManager(int spanCount, int orientation) {
+public class ExStaggeredGridLayoutManager extends StaggeredGridLayoutManager
+{
+    public ExStaggeredGridLayoutManager(int spanCount, int orientation)
+    {
         super(spanCount, orientation);
     }
 
@@ -23,7 +24,8 @@ public class ExStaggeredGridLayoutManager extends StaggeredGridLayoutManager {
 
     @Override
 
-    public void onMeasure(RecyclerView.Recycler recycler, RecyclerView.State state, int widthSpec, int heightSpec) {
+    public void onMeasure(RecyclerView.Recycler recycler, RecyclerView.State state, int widthSpec, int heightSpec)
+    {
         // 宽的mode+size
         final int widthMode = View.MeasureSpec.getMode(widthSpec);
         final int widthSize = View.MeasureSpec.getSize(widthSpec);
@@ -41,27 +43,35 @@ public class ExStaggeredGridLayoutManager extends StaggeredGridLayoutManager {
         // 根据行数或列数来创建数组
         dimension = new int[span];
 
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < count; i++)
+        {
             measureScrapChild(recycler, i,
                     View.MeasureSpec.makeMeasureSpec(i, View.MeasureSpec.UNSPECIFIED),
                     View.MeasureSpec.makeMeasureSpec(i, View.MeasureSpec.UNSPECIFIED), measuredDimension);
 
             // 如果是竖直的列表，计算item的高，否则计算宽度
             //Log.d("LISTENER", "position " + i + " height = " + measuredDimension[1]);
-            if (getOrientation() == VERTICAL) {
+            if (getOrientation() == VERTICAL)
+            {
                 dimension[findMinIndex(dimension)] += measuredDimension[1];
-            } else {
+            }
+            else
+            {
                 dimension[findMinIndex(dimension)] += measuredDimension[0];
             }
         }
-        if (getOrientation() == VERTICAL) {
+        if (getOrientation() == VERTICAL)
+        {
             height = findMax(dimension);
-        } else {
+        }
+        else
+        {
             width = findMax(dimension);
         }
 
 
-        switch (widthMode) {
+        switch (widthMode)
+        {
             // 当控件宽是match_parent时，宽度就是父控件的宽度
             case View.MeasureSpec.EXACTLY:
                 width = widthSize;
@@ -71,7 +81,8 @@ public class ExStaggeredGridLayoutManager extends StaggeredGridLayoutManager {
             case View.MeasureSpec.UNSPECIFIED:
                 break;
         }
-        switch (heightMode) {
+        switch (heightMode)
+        {
             // 当控件高是match_parent时，高度就是父控件的高度
             case View.MeasureSpec.EXACTLY:
                 height = heightSize;
@@ -86,14 +97,18 @@ public class ExStaggeredGridLayoutManager extends StaggeredGridLayoutManager {
     }
 
     private void measureScrapChild(RecyclerView.Recycler recycler, int position, int widthSpec,
-                                   int heightSpec, int[] measuredDimension) {
+                                   int heightSpec, int[] measuredDimension)
+    {
 
         // 挨个遍历所有item
-        if (position < getItemCount()) {
-            try {
+        if (position < getItemCount())
+        {
+            try
+            {
                 View view = recycler.getViewForPosition(position);//fix 动态添加时报IndexOutOfBoundsException
 
-                if (view != null) {
+                if (view != null)
+                {
                     RecyclerView.LayoutParams lp = (RecyclerView.LayoutParams) view.getLayoutParams();
                     int childWidthSpec = ViewGroup.getChildMeasureSpec(widthSpec, getPaddingLeft() + getPaddingRight(), lp.width);
                     int childHeightSpec = ViewGroup.getChildMeasureSpec(heightSpec, getPaddingTop() + getPaddingBottom(), lp.height);
@@ -104,16 +119,21 @@ public class ExStaggeredGridLayoutManager extends StaggeredGridLayoutManager {
                     measuredDimension[1] = view.getMeasuredHeight() + lp.topMargin + lp.bottomMargin;
                     recycler.recycleView(view);
                 }
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 e.printStackTrace();
             }
         }
     }
 
-    private int findMax(int[] array) {
+    private int findMax(int[] array)
+    {
         int max = array[0];
-        for (int value : array) {
-            if (value > max) {
+        for (int value : array)
+        {
+            if (value > max)
+            {
                 max = value;
             }
         }
@@ -126,11 +146,14 @@ public class ExStaggeredGridLayoutManager extends StaggeredGridLayoutManager {
      * @param array
      * @return
      */
-    private int findMinIndex(int[] array) {
+    private int findMinIndex(int[] array)
+    {
         int index = 0;
         int min = array[0];
-        for (int i = 0; i < array.length; i++) {
-            if (array[i] < min) {
+        for (int i = 0; i < array.length; i++)
+        {
+            if (array[i] < min)
+            {
                 min = array[i];
                 index = i;
             }

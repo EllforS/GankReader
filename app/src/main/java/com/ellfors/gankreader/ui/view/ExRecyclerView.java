@@ -10,21 +10,24 @@ import android.util.AttributeSet;
  */
 public class ExRecyclerView extends RecyclerView
 {
-
-    public ExRecyclerView(Context context) {
+    public ExRecyclerView(Context context)
+    {
         super(context);
     }
 
-    public ExRecyclerView(Context context, @Nullable AttributeSet attrs) {
+    public ExRecyclerView(Context context, @Nullable AttributeSet attrs)
+    {
         super(context, attrs);
     }
 
-    public ExRecyclerView(Context context, @Nullable AttributeSet attrs, int defStyle) {
+    public ExRecyclerView(Context context, @Nullable AttributeSet attrs, int defStyle)
+    {
         super(context, attrs, defStyle);
     }
 
     @Override
-    protected void onMeasure(int widthSpec, int heightSpec) {
+    protected void onMeasure(int widthSpec, int heightSpec)
+    {
         int expandSpec = MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >> 2, MeasureSpec.AT_MOST);
         super.onMeasure(widthSpec, expandSpec);
     }

@@ -9,19 +9,23 @@ import android.view.ViewGroup;
 /**
  * 嵌套在ScrollView中的GridLayoutManager
  */
-public class FullyGridLayoutManager extends GridLayoutManager {
-    public FullyGridLayoutManager(Context context, int spanCount) {
+public class FullyGridLayoutManager extends GridLayoutManager
+{
+    public FullyGridLayoutManager(Context context, int spanCount)
+    {
         super(context, spanCount);
     }
 
-    public FullyGridLayoutManager(Context context, int spanCount, int orientation, boolean reverseLayout) {
+    public FullyGridLayoutManager(Context context, int spanCount, int orientation, boolean reverseLayout)
+    {
         super(context, spanCount, orientation, reverseLayout);
     }
 
     private int[] mMeasuredDimension = new int[2];
 
     @Override
-    public void onMeasure(RecyclerView.Recycler recycler, RecyclerView.State state, int widthSpec, int heightSpec) {
+    public void onMeasure(RecyclerView.Recycler recycler, RecyclerView.State state, int widthSpec, int heightSpec)
+    {
         final int widthMode = View.MeasureSpec.getMode(widthSpec);
         final int heightMode = View.MeasureSpec.getMode(heightSpec);
         final int widthSize = View.MeasureSpec.getSize(widthSpec);
@@ -31,37 +35,47 @@ public class FullyGridLayoutManager extends GridLayoutManager {
         int height = 0;
         int count = getItemCount();
         int span = getSpanCount();
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < count; i++)
+        {
             measureScrapChild(recycler, i,
                     View.MeasureSpec.makeMeasureSpec(i, View.MeasureSpec.UNSPECIFIED),
                     View.MeasureSpec.makeMeasureSpec(i, View.MeasureSpec.UNSPECIFIED),
                     mMeasuredDimension);
 
-            if (getOrientation() == HORIZONTAL) {
-                if (i % span == 0) {
+            if (getOrientation() == HORIZONTAL)
+            {
+                if (i % span == 0)
+                {
                     width = width + mMeasuredDimension[0];
                 }
-                if (i == 0) {
+                if (i == 0)
+                {
                     height = mMeasuredDimension[1];
                 }
-            } else {
-                if (i % span == 0) {
+            }
+            else
+            {
+                if (i % span == 0)
+                {
                     height = height + mMeasuredDimension[1];
                 }
-                if (i == 0) {
+                if (i == 0)
+                {
                     width = mMeasuredDimension[0];
                 }
             }
         }
 
-        switch (widthMode) {
+        switch (widthMode)
+        {
             case View.MeasureSpec.EXACTLY:
                 width = widthSize;
             case View.MeasureSpec.AT_MOST:
             case View.MeasureSpec.UNSPECIFIED:
         }
 
-        switch (heightMode) {
+        switch (heightMode)
+        {
             case View.MeasureSpec.EXACTLY:
                 height = heightSize;
             case View.MeasureSpec.AT_MOST:
@@ -72,11 +86,15 @@ public class FullyGridLayoutManager extends GridLayoutManager {
     }
 
     private void measureScrapChild(RecyclerView.Recycler recycler, int position, int widthSpec,
-                                   int heightSpec, int[] measuredDimension) {
-        if (position < getItemCount()) {
-            try {
+                                   int heightSpec, int[] measuredDimension)
+    {
+        if (position < getItemCount())
+        {
+            try
+            {
                 View view = recycler.getViewForPosition(0);//fix 动态添加时报IndexOutOfBoundsException
-                if (view != null) {
+                if (view != null)
+                {
                     RecyclerView.LayoutParams p = (RecyclerView.LayoutParams) view.getLayoutParams();
                     int childWidthSpec = ViewGroup.getChildMeasureSpec(widthSpec,
                             getPaddingLeft() + getPaddingRight(), p.width);
@@ -87,7 +105,9 @@ public class FullyGridLayoutManager extends GridLayoutManager {
                     measuredDimension[1] = view.getMeasuredHeight() + p.bottomMargin + p.topMargin;
                     recycler.recycleView(view);
                 }
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 e.printStackTrace();
             }
         }

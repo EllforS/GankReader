@@ -13,9 +13,9 @@ import com.bumptech.glide.module.GlideModule;
 
 /**
  * 用于Glide的相关配置
- *
- *      使用时在AndroidManifest.xml中将GlideModule定义为meta-data
- *      <meta-data android:name="com.ellfors.calendar_demo.util.GlideConfiguration" android:value="GlideModule"/>
+ * <p>
+ * 使用时在AndroidManifest.xml中将GlideModule定义为meta-data
+ * <meta-data android:name="com.ellfors.calendar_demo.util.GlideConfiguration" android:value="GlideModule"/>
  */
 public class GlideModelConfig implements GlideModule
 {

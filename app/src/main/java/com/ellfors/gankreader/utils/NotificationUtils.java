@@ -16,7 +16,8 @@ import android.widget.RemoteViews;
  * 需要添加
  * <uses-permission android:name="android.permission.VIBRATE"/>
  */
-public class NotificationUtils {
+public class NotificationUtils
+{
     private static NotificationManager manager;
 
     /**
@@ -32,7 +33,8 @@ public class NotificationUtils {
      * @param time      震动时间
      * @param id        通知ID
      */
-    public static void showNormalNotifi(Context context, Intent i, int smallIcon, int largeIcon, String title, String content, int time, int id) {
+    public static void showNormalNotifi(Context context, Intent i, int smallIcon, int largeIcon, String title, String content, int time, int id)
+    {
         manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         PendingIntent intent = PendingIntent.getActivity(context, 0, i, 0);
@@ -51,7 +53,8 @@ public class NotificationUtils {
                 .build();
 
         //震动
-        if (time != 0) {
+        if (time != 0)
+        {
             Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
             vibrator.vibrate(time);
         }
@@ -68,12 +71,16 @@ public class NotificationUtils {
      * @param id 根据ID取消通知
      * @return true为成功  false失败
      */
-    public static boolean cancelNotification(int id) {
-        if (manager != null) {
+    public static boolean cancelNotification(int id)
+    {
+        if (manager != null)
+        {
             manager.cancel(id);
 
             return true;
-        } else {
+        }
+        else
+        {
             return false;
         }
     }
@@ -87,7 +94,8 @@ public class NotificationUtils {
      * @param time    震动时间
      * @param id      通知ID
      */
-    public static void showCustomNotifi(Context context, int icon, RemoteViews view, Intent intent, int time, int id) {
+    public static void showCustomNotifi(Context context, int icon, RemoteViews view, Intent intent, int time, int id)
+    {
         manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         Notification myNotify = new Notification();
@@ -99,7 +107,8 @@ public class NotificationUtils {
         PendingIntent contentIntent = PendingIntent.getActivity(context, 0, intent, 0);
 
         //震动
-        if (time != 0) {
+        if (time != 0)
+        {
             Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
             vibrator.vibrate(time);
         }

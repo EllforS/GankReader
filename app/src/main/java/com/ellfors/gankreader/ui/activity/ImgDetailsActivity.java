@@ -23,7 +23,6 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 import uk.co.senab.photoview.PhotoView;
@@ -70,16 +69,17 @@ public class ImgDetailsActivity extends BaseActivity
     }
 
     @Override
-    protected void onDestroy() {
+    protected void onDestroy()
+    {
         super.onDestroy();
-        if(subscriptions != null)
+        if (subscriptions != null)
             subscriptions.unsubscribe();
     }
 
     private void bindData()
     {
         Intent intent = getIntent();
-        if(intent != null)
+        if (intent != null)
         {
             url = intent.getStringExtra(PHOTO_URL);
         }
@@ -120,38 +120,28 @@ public class ImgDetailsActivity extends BaseActivity
      */
     private void setListener()
     {
-        photoView.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
+        photoView.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener()
+        {
             @Override
-            public void onPhotoTap(View view, float x, float y) {
+            public void onPhotoTap(View view, float x, float y)
+            {
                 finish();
             }
 
             @Override
-            public void onOutsidePhotoTap() {
+            public void onOutsidePhotoTap()
+            {
 
             }
         });
 
-        photoView.setOnLongClickListener(new View.OnLongClickListener()
-        {
-            @Override
-            public boolean onLongClick(View view)
-            {
-                Vibrator vibrator = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
-                vibrator.vibrate(500);
-
-                Snackbar snackbar = make(mRelativeLayout,"确定保存到本地么？",Snackbar.LENGTH_LONG)
-                        .setAction("YES", new View.OnClickListener()
-                        {
-                            @Override
-                            public void onClick(View v)
-                            {
-                                saveImage();
-                            }
-                        });
-                snackbar.show();
-                return true;
-            }
+        photoView.setOnLongClickListener(v -> {
+            Vibrator vibrator = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
+            vibrator.vibrate(500);
+            Snackbar snackbar = make(mRelativeLayout, "确定保存到本地么？", Snackbar.LENGTH_LONG)
+                    .setAction("YES", v1 -> saveImage());
+            snackbar.show();
+            return true;
         });
     }
 
@@ -160,35 +150,32 @@ public class ImgDetailsActivity extends BaseActivity
      */
     private void saveImage()
     {
-        Subscription sub = Observable
-                .create(new Observable.OnSubscribe<Boolean>()
-                {
-                    @Override
-                    public void call(Subscriber<? super Boolean> subscriber)
-                    {
-                        Bitmap bitmap = GlideLoadUtils.getGlideBitmap(mContext,url,1080,1920);
-                        subscriber.onNext(BitmapSaveUtils.saveImageToGallery(mContext,bitmap,SavePath));
-                        subscriber.onCompleted();
-                    }
-                })
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Boolean>()
-                {
-                    @Override
-                    public void call(Boolean aBoolean)
-                    {
-                        if (aBoolean)
+        Subscription sub =
+                Observable
+                        .create(new Observable.OnSubscribe<Boolean>()
                         {
-                            showToast("保存成功");
-                            finish();
-                        }
-                        else
+                            @Override
+                            public void call(Subscriber<? super Boolean> subscriber)
+                            {
+                                Bitmap bitmap = GlideLoadUtils.getGlideBitmap(mContext, url, 1080, 1920);
+                                subscriber.onNext(BitmapSaveUtils.saveImageToGallery(mContext, bitmap, SavePath));
+                                subscriber.onCompleted();
+                            }
+                        })
+                        .subscribeOn(Schedulers.newThread())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(aBoolean ->
                         {
-                            showToast("保存失败");
-                        }
-                    }
-                });
+                            if (aBoolean)
+                            {
+                                showToast("保存成功");
+                                finish();
+                            }
+                            else
+                            {
+                                showToast("保存失败");
+                            }
+                        });
         subscriptions.add(sub);
     }
 }

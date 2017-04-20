@@ -7,30 +7,35 @@ import android.widget.GridView;
 /**
  * 自适应ScrollView的GridView
  */
-public class ExGridView extends GridView {
-
+public class ExGridView extends GridView
+{
     private boolean haveScrollbar = false;
 
-    public ExGridView(Context context) {
+    public ExGridView(Context context)
+    {
         super(context);
     }
 
-    public ExGridView(Context context, AttributeSet attrs) {
+    public ExGridView(Context context, AttributeSet attrs)
+    {
         super(context, attrs);
     }
 
-    public ExGridView(Context context, AttributeSet attrs, int defStyle) {
+    public ExGridView(Context context, AttributeSet attrs, int defStyle)
+    {
         super(context, attrs, defStyle);
     }
 
     /**
      * 设置是否有ScrollBar，当要在ScollView中显示时，应当设置为false。 默认为 false
      */
-    public void setHaveScrollbar(boolean haveScrollbar) {
+    public void setHaveScrollbar(boolean haveScrollbar)
+    {
         this.haveScrollbar = haveScrollbar;
     }
 
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
+    {
         /*
          * if (haveScrollbar == false) { int expandSpec =
 		 * MeasureSpec.makeMeasureSpec( Integer.MAX_VALUE >> 2,

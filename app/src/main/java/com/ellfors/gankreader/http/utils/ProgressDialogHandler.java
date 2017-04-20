@@ -2,7 +2,6 @@ package com.ellfors.gankreader.http.utils;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Handler;
 import android.os.Message;
 
@@ -43,14 +42,7 @@ public class ProgressDialogHandler extends Handler
 
             if (cancelable)
             {
-                pd.setOnCancelListener(new DialogInterface.OnCancelListener()
-                {
-                    @Override
-                    public void onCancel(DialogInterface dialogInterface)
-                    {
-                        mProgressCancelListener.onProgressCancel();
-                    }
-                });
+                pd.setOnCancelListener(dialog -> mProgressCancelListener.onProgressCancel());
             }
 
             if (!pd.isShowing())

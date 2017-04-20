@@ -5,13 +5,11 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ellfors.gankreader.R;
 import com.ellfors.gankreader.base.BaseFragment;
-import com.ellfors.gankreader.base.BaseRcvAdapter;
 import com.ellfors.gankreader.model.FuliModel;
 import com.ellfors.gankreader.presenter.contract.FuliContract;
 import com.ellfors.gankreader.presenter.impl.FuliPresenterImpl;
@@ -65,21 +63,14 @@ public class FuliFragment extends BaseFragment implements FuliContract.View
         /* Title */
         head_title.setText(getResources().getString(R.string.fuli));
         /* RecyclerView */
-        mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2));
+        mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         /* initData */
         mSwipeRefreshLayout.setRefreshing(true);
         fuliPresenter.getFuliList();
         /* SwipeRefresh */
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
-        {
-            @Override
-            public void onRefresh()
-            {
-                fuliPresenter.getFuliList();
-            }
-        });
+        mSwipeRefreshLayout.setOnRefreshListener(() -> fuliPresenter.getFuliList());
         /* Loading List */
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener()
         {
@@ -111,11 +102,12 @@ public class FuliFragment extends BaseFragment implements FuliContract.View
     public void onDestroy()
     {
         super.onDestroy();
-        if(fuliPresenter != null)
+        if (fuliPresenter != null)
             fuliPresenter.detachView();
     }
 
-    @OnClick(R.id.hear_open_drawer) void doOpenDrawer()
+    @OnClick(R.id.hear_open_drawer)
+    void doOpenDrawer()
     {
         ((MainActivity) getActivity()).openDrawer();
     }
@@ -125,7 +117,7 @@ public class FuliFragment extends BaseFragment implements FuliContract.View
     {
         mSwipeRefreshLayout.setRefreshing(false);
         fuli_list = list;
-        fuliAdapter = new FuliAdapter(getActivity(),fuli_list);
+        fuliAdapter = new FuliAdapter(getActivity(), fuli_list);
         mRecyclerView.setAdapter(fuliAdapter);
         setRcvItemClick();
     }
@@ -150,15 +142,9 @@ public class FuliFragment extends BaseFragment implements FuliContract.View
      */
     private void setRcvItemClick()
     {
-        fuliAdapter.setOnItemClickListener(new BaseRcvAdapter.OnItemClickListener()
-        {
-            @Override
-            public void onItemClick(View view, int position)
-            {
+        fuliAdapter.setOnItemClickListener((view, position) ->
                 startActivity(new Intent(
                         getActivity(), ImgDetailsActivity.class).putExtra(
-                        ImgDetailsActivity.PHOTO_URL,fuli_list.get(position).getUrl()));
-            }
-        });
+                        ImgDetailsActivity.PHOTO_URL, fuli_list.get(position).getUrl())));
     }
 }

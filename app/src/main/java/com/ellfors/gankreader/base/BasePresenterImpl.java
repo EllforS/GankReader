@@ -14,7 +14,7 @@ public class BasePresenterImpl<T extends BaseView> implements BasePresenter<T>
     /* 绑定SubScriber */
     public void addSubscribe(Subscription sub)
     {
-        if(subscriptions == null)
+        if (subscriptions == null)
         {
             subscriptions = new CompositeSubscription();
         }
@@ -24,7 +24,7 @@ public class BasePresenterImpl<T extends BaseView> implements BasePresenter<T>
     /* 取消绑定 */
     public void unSubscribe()
     {
-        if(subscriptions != null)
+        if (subscriptions != null)
             subscriptions.unsubscribe();
     }
 

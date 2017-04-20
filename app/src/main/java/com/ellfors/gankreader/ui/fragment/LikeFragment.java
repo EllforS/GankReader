@@ -4,13 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ellfors.gankreader.R;
 import com.ellfors.gankreader.base.BaseFragment;
-import com.ellfors.gankreader.base.BaseRcvAdapter;
 import com.ellfors.gankreader.model.LiteModel;
 import com.ellfors.gankreader.model.StudyModel;
 import com.ellfors.gankreader.ui.activity.MainActivity;
@@ -77,17 +75,12 @@ public class LikeFragment extends BaseFragment
         }
         adapter = new LikeAdapter(getActivity(),study_list);
         mRecyclerView.setAdapter(adapter);
-        adapter.setOnItemClickListener(new BaseRcvAdapter.OnItemClickListener()
-        {
-            @Override
-            public void onItemClick(View view, int position)
-            {
-                Intent intent = new Intent(getActivity(), WebViewActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(StudyFragment.STUDY_MODEL,study_list.get(position));
-                intent.putExtras(bundle);
-                getActivity().startActivity(intent);
-            }
+        adapter.setOnItemClickListener((view, position) -> {
+            Intent intent = new Intent(getActivity(), WebViewActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(StudyFragment.STUDY_MODEL,study_list.get(position));
+            intent.putExtras(bundle);
+            getActivity().startActivity(intent);
         });
     }
 

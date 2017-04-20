@@ -2,14 +2,12 @@ package com.ellfors.gankreader.ui.activity;
 
 import android.Manifest;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.ellfors.gankreader.R;
@@ -78,11 +76,11 @@ public class MainActivity extends BaseActivity
         /* initFragment */
         fm = getSupportFragmentManager();
         ft = fm.beginTransaction();
-        ft.add(R.id.main_frame,readFragment);
-        ft.add(R.id.main_frame,fuliFragment);
-        ft.add(R.id.main_frame,likeFragment);
-        ft.add(R.id.main_frame,settingFragment);
-        ft.add(R.id.main_frame,aboutFragment);
+        ft.add(R.id.main_frame, readFragment);
+        ft.add(R.id.main_frame, fuliFragment);
+        ft.add(R.id.main_frame, likeFragment);
+        ft.add(R.id.main_frame, settingFragment);
+        ft.add(R.id.main_frame, aboutFragment);
         ft.hide(fuliFragment);
         ft.hide(likeFragment);
         ft.hide(settingFragment);
@@ -90,33 +88,28 @@ public class MainActivity extends BaseActivity
         ft.commit();
         now_fragment = readFragment;
         /* NavigationView */
-        mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener()
-        {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item)
+        mNavigationView.setNavigationItemSelectedListener(item -> {
+            switch (item.getItemId())
             {
-                switch (item.getItemId())
-                {
-                    case R.id.menu_read:
-                        setMenuItemListener(readFragment);
-                        break;
-                    case R.id.menu_fuli:
-                        setMenuItemListener(fuliFragment);
-                        break;
-                    case R.id.menu_like:
-                        setMenuItemListener(likeFragment);
-                        break;
-                    case R.id.menu_setting:
-                        setMenuItemListener(settingFragment);
-                        break;
-                    case R.id.menu_about:
-                        setMenuItemListener(aboutFragment);
-                        break;
-                    default:
-                        break;
-                }
-                return false;
+                case R.id.menu_read:
+                    setMenuItemListener(readFragment);
+                    break;
+                case R.id.menu_fuli:
+                    setMenuItemListener(fuliFragment);
+                    break;
+                case R.id.menu_like:
+                    setMenuItemListener(likeFragment);
+                    break;
+                case R.id.menu_setting:
+                    setMenuItemListener(settingFragment);
+                    break;
+                case R.id.menu_about:
+                    setMenuItemListener(aboutFragment);
+                    break;
+                default:
+                    break;
             }
+            return false;
         });
     }
 
@@ -187,13 +180,14 @@ public class MainActivity extends BaseActivity
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event)
     {
-        if(keyCode == KeyEvent.KEYCODE_BACK)
+        if (keyCode == KeyEvent.KEYCODE_BACK)
         {
             //调用双击退出函数
             exitBy2Click();
         }
         return false;
     }
+
     /**
      * 双击退出函数
      */

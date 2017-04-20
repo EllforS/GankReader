@@ -11,13 +11,15 @@ import static com.bumptech.glide.Glide.with;
 /**
  * Glide图像加载工具类
  */
-public class GlideLoadUtils {
-    public static void loadImage(Context context, String url, ImageView imageView) {
+public class GlideLoadUtils
+{
+    public static void loadImage(Context context, String url, ImageView imageView)
+    {
         with(context)
                 .load(url)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-//                .placeholder(R.mipmap.ic_launcher)
-//                .error(R.mipmap.ic_launcher)
+                //                .placeholder(R.mipmap.ic_launcher)
+                //                .error(R.mipmap.ic_launcher)
                 .centerCrop()
                 .thumbnail(0.1f)
                 .into(imageView);
@@ -28,16 +30,20 @@ public class GlideLoadUtils {
      * <p>
      * 需要自己设置宽高
      */
-    public static final Bitmap getGlideBitmap(Context context, String url, int width, int height) {
+    public static final Bitmap getGlideBitmap(Context context, String url, int width, int height)
+    {
         Bitmap bitmap = null;
-        try {
+        try
+        {
             bitmap = with(context)
                     .load(url)
                     .asBitmap() //必须
                     .centerCrop()
                     .into(width, height)//设置Bitmap大小
                     .get();
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
 
         }
         return bitmap;
@@ -48,16 +54,20 @@ public class GlideLoadUtils {
      * <p>
      * 默认宽高都为300
      */
-    public static final Bitmap getGlideBitmap(Context context, String url) {
+    public static final Bitmap getGlideBitmap(Context context, String url)
+    {
         Bitmap bitmap = null;
-        try {
+        try
+        {
             bitmap = with(context)
                     .load(url)
                     .asBitmap() //必须
                     .centerCrop()
                     .into(300, 300)//设置Bitmap大小
                     .get();
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
 
         }
         return bitmap;

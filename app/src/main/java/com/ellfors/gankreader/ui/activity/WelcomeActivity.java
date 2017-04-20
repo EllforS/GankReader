@@ -25,14 +25,10 @@ public class WelcomeActivity extends BaseActivity
     @Override
     public void initEventAndData()
     {
-        new Handler().postDelayed(new Runnable()
+        new Handler().postDelayed(() ->
         {
-            @Override
-            public void run()
-            {
-                startActivity(new Intent(mContext,MainActivity.class));
-                finish();
-            }
+            startActivity(new Intent(mContext,MainActivity.class));
+            finish();
         },TIME);
     }
 }

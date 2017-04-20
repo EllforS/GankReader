@@ -6,11 +6,9 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
 import com.ellfors.gankreader.R;
 import com.ellfors.gankreader.base.BaseFragment;
-import com.ellfors.gankreader.base.BaseRcvAdapter;
 import com.ellfors.gankreader.model.StudyModel;
 import com.ellfors.gankreader.presenter.contract.StudyContract;
 import com.ellfors.gankreader.presenter.impl.StudyPresenterImpl;
@@ -63,7 +61,7 @@ public class StudyFragment extends BaseFragment implements StudyContract.View
     public void onDestroy()
     {
         super.onDestroy();
-        if(studyPresenter != null)
+        if (studyPresenter != null)
             studyPresenter.detachView();
     }
 
@@ -91,14 +89,7 @@ public class StudyFragment extends BaseFragment implements StudyContract.View
         studyPresenter.getStudyList(tag);
         /* SwipeRefresh */
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
-        {
-            @Override
-            public void onRefresh()
-            {
-                studyPresenter.getStudyList(tag);
-            }
-        });
+        mSwipeRefreshLayout.setOnRefreshListener(() -> studyPresenter.getStudyList(tag));
         /* Loading List */
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener()
         {
@@ -131,7 +122,7 @@ public class StudyFragment extends BaseFragment implements StudyContract.View
     {
         mSwipeRefreshLayout.setRefreshing(false);
         study_list = list;
-        studyAdapter = new StudyAdapter(tag,getActivity(),study_list);
+        studyAdapter = new StudyAdapter(tag, getActivity(), study_list);
         mRecyclerView.setAdapter(studyAdapter);
         setRcvItemClick();
     }
@@ -156,17 +147,13 @@ public class StudyFragment extends BaseFragment implements StudyContract.View
      */
     private void setRcvItemClick()
     {
-        studyAdapter.setOnItemClickListener(new BaseRcvAdapter.OnItemClickListener()
+        studyAdapter.setOnItemClickListener((view, position) ->
         {
-            @Override
-            public void onItemClick(View view, int position)
-            {
-                Intent intent = new Intent(getActivity(), WebViewActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(STUDY_MODEL,study_list.get(position));
-                intent.putExtras(bundle);
-                getActivity().startActivity(intent);
-            }
+            Intent intent = new Intent(getActivity(), WebViewActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(STUDY_MODEL, study_list.get(position));
+            intent.putExtras(bundle);
+            getActivity().startActivity(intent);
         });
     }
 }

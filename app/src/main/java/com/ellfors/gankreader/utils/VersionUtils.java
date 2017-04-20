@@ -8,24 +8,29 @@ import android.text.TextUtils;
 /**
  * 获取App版本数据
  */
-public class VersionUtils {
-
+public class VersionUtils
+{
     /**
      * 获取当前版本名
      */
-    public static String getAppVersionName(Context context) {
+    public static String getAppVersionName(Context context)
+    {
         String versionName = "";
-        try {
+        try
+        {
             PackageManager packageManager = context.getPackageManager();
 
             PackageInfo packageInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
 
             versionName = packageInfo.versionName;
 
-            if (TextUtils.isEmpty(versionName)) {
+            if (TextUtils.isEmpty(versionName))
+            {
                 return "";
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
         }
         return versionName;
@@ -34,16 +39,20 @@ public class VersionUtils {
     /**
      * 获取当前版本号
      */
-    public static int getAppVersionCode(Context context) {
+    public static int getAppVersionCode(Context context)
+    {
         int versionCode = 0;
 
-        try {
+        try
+        {
             PackageManager packageManager = context.getPackageManager();
 
             PackageInfo packageInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
 
             versionCode = packageInfo.versionCode;
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
         }
         return versionCode;

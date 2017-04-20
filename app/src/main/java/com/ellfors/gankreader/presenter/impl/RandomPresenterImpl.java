@@ -30,8 +30,8 @@ public class RandomPresenterImpl extends BasePresenterImpl<RandomContract.View> 
         Subscription sub = manager
                 .getGsonHttpApi()
                 .getRandomFuli(1)
-                .compose(RxUtils.<List<RandomModel>>handleResult())
-                .compose(RxUtils.<List<RandomModel>>rxSchedulerHelper())
+                .compose(RxUtils.handleResult())
+                .compose(RxUtils.rxSchedulerHelper())
                 .subscribe(new SimpleSubscriber<List<RandomModel>>()
                 {
                     @Override

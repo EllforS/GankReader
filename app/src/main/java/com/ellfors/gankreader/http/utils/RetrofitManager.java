@@ -29,15 +29,7 @@ public class RetrofitManager {
         BASE_URL = RetrofitConfig.BASE_URL;
         DEFAULT_TIME = RetrofitConfig.OUTTIME;
 
-        loggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger()
-        {
-            @Override
-            public void log(String message)
-            {
-                /* 打印retrofit日志 */
-                Log.d(RetrofitConfig.HTTP_TAG,message);
-            }
-        });
+        loggingInterceptor = new HttpLoggingInterceptor(message -> Log.d(RetrofitConfig.HTTP_TAG,message));
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
     }
 

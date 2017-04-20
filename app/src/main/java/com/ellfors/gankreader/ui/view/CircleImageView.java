@@ -22,8 +22,8 @@ import com.ellfors.gankreader.R;
 /**
  * 自定义圆形图片控件
  */
-public class CircleImageView extends ImageView {
-
+public class CircleImageView extends ImageView
+{
     private static final ScaleType SCALE_TYPE = ScaleType.CENTER_CROP;
 
     private static final Bitmap.Config BITMAP_CONFIG = Bitmap.Config.ARGB_8888;
@@ -53,15 +53,18 @@ public class CircleImageView extends ImageView {
     private boolean mReady;
     private boolean mSetupPending;
 
-    public CircleImageView(Context context) {
+    public CircleImageView(Context context)
+    {
         super(context);
     }
 
-    public CircleImageView(Context context, AttributeSet attrs) {
+    public CircleImageView(Context context, AttributeSet attrs)
+    {
         this(context, attrs, 0);
     }
 
-    public CircleImageView(Context context, AttributeSet attrs, int defStyle) {
+    public CircleImageView(Context context, AttributeSet attrs, int defStyle)
+    {
         super(context, attrs, defStyle);
         super.setScaleType(SCALE_TYPE);
 
@@ -74,27 +77,33 @@ public class CircleImageView extends ImageView {
 
         mReady = true;
 
-        if (mSetupPending) {
+        if (mSetupPending)
+        {
             setup();
             mSetupPending = false;
         }
     }
 
     @Override
-    public ScaleType getScaleType() {
+    public ScaleType getScaleType()
+    {
         return SCALE_TYPE;
     }
 
     @Override
-    public void setScaleType(ScaleType scaleType) {
-        if (scaleType != SCALE_TYPE) {
+    public void setScaleType(ScaleType scaleType)
+    {
+        if (scaleType != SCALE_TYPE)
+        {
             throw new IllegalArgumentException(String.format("ScaleType %s not supported.", scaleType));
         }
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
-        if (getDrawable() == null) {
+    protected void onDraw(Canvas canvas)
+    {
+        if (getDrawable() == null)
+        {
             return;
         }
 
@@ -103,17 +112,21 @@ public class CircleImageView extends ImageView {
     }
 
     @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+    protected void onSizeChanged(int w, int h, int oldw, int oldh)
+    {
         super.onSizeChanged(w, h, oldw, oldh);
         setup();
     }
 
-    public int getBorderColor() {
+    public int getBorderColor()
+    {
         return mBorderColor;
     }
 
-    public void setBorderColor(int borderColor) {
-        if (borderColor == mBorderColor) {
+    public void setBorderColor(int borderColor)
+    {
+        if (borderColor == mBorderColor)
+        {
             return;
         }
 
@@ -122,12 +135,15 @@ public class CircleImageView extends ImageView {
         invalidate();
     }
 
-    public int getBorderWidth() {
+    public int getBorderWidth()
+    {
         return mBorderWidth;
     }
 
-    public void setBorderWidth(int borderWidth) {
-        if (borderWidth == mBorderWidth) {
+    public void setBorderWidth(int borderWidth)
+    {
+        if (borderWidth == mBorderWidth)
+        {
             return;
         }
 
@@ -136,41 +152,51 @@ public class CircleImageView extends ImageView {
     }
 
     @Override
-    public void setImageBitmap(Bitmap bm) {
+    public void setImageBitmap(Bitmap bm)
+    {
         super.setImageBitmap(bm);
         mBitmap = bm;
         setup();
     }
 
     @Override
-    public void setImageDrawable(Drawable drawable) {
+    public void setImageDrawable(Drawable drawable)
+    {
         super.setImageDrawable(drawable);
         mBitmap = getBitmapFromDrawable(drawable);
         setup();
     }
 
     @Override
-    public void setImageResource(int resId) {
+    public void setImageResource(int resId)
+    {
         super.setImageResource(resId);
         mBitmap = getBitmapFromDrawable(getDrawable());
         setup();
     }
 
-    private Bitmap getBitmapFromDrawable(Drawable drawable) {
-        if (drawable == null) {
+    private Bitmap getBitmapFromDrawable(Drawable drawable)
+    {
+        if (drawable == null)
+        {
             return null;
         }
 
-        if (drawable instanceof BitmapDrawable) {
+        if (drawable instanceof BitmapDrawable)
+        {
             return ((BitmapDrawable) drawable).getBitmap();
         }
 
-        try {
+        try
+        {
             Bitmap bitmap;
 
-            if (drawable instanceof ColorDrawable) {
+            if (drawable instanceof ColorDrawable)
+            {
                 bitmap = Bitmap.createBitmap(COLORDRAWABLE_DIMENSION, COLORDRAWABLE_DIMENSION, BITMAP_CONFIG);
-            } else {
+            }
+            else
+            {
                 bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), BITMAP_CONFIG);
             }
 
@@ -178,18 +204,23 @@ public class CircleImageView extends ImageView {
             drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
             drawable.draw(canvas);
             return bitmap;
-        } catch (OutOfMemoryError e) {
+        }
+        catch (OutOfMemoryError e)
+        {
             return null;
         }
     }
 
-    private void setup() {
-        if (!mReady) {
+    private void setup()
+    {
+        if (!mReady)
+        {
             mSetupPending = true;
             return;
         }
 
-        if (mBitmap == null) {
+        if (mBitmap == null)
+        {
             return;
         }
 
@@ -216,17 +247,21 @@ public class CircleImageView extends ImageView {
         invalidate();
     }
 
-    private void updateShaderMatrix() {
+    private void updateShaderMatrix()
+    {
         float scale;
         float dx = 0;
         float dy = 0;
 
         mShaderMatrix.set(null);
 
-        if (mBitmapWidth * mDrawableRect.height() > mDrawableRect.width() * mBitmapHeight) {
+        if (mBitmapWidth * mDrawableRect.height() > mDrawableRect.width() * mBitmapHeight)
+        {
             scale = mDrawableRect.height() / (float) mBitmapHeight;
             dx = (mDrawableRect.width() - mBitmapWidth * scale) * 0.5f;
-        } else {
+        }
+        else
+        {
             scale = mDrawableRect.width() / (float) mBitmapWidth;
             dy = (mDrawableRect.height() - mBitmapHeight * scale) * 0.5f;
         }

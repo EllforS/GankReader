@@ -16,7 +16,8 @@ public abstract class BaseRcvAdapter extends RecyclerView.Adapter<RecyclerView.V
     private boolean isHasHeader = false;
     private boolean isHasFooter = false;
 
-    public BaseRcvAdapter(boolean isHasHeader, boolean isHasFooter) {
+    public BaseRcvAdapter(boolean isHasHeader, boolean isHasFooter)
+    {
         this.isHasHeader = isHasHeader;
         this.isHasFooter = isHasFooter;
     }
@@ -30,39 +31,51 @@ public abstract class BaseRcvAdapter extends RecyclerView.Adapter<RecyclerView.V
     private OnItemClickListener onItemClickListener;
     private OnItemLongClickListener onItemLongClickListener;
 
-    public void setOnItemClickListener(OnItemClickListener listener) {
+    public void setOnItemClickListener(OnItemClickListener listener)
+    {
         this.onItemClickListener = listener;
     }
 
-    public void setOnItemLongClickListener(OnItemLongClickListener listener) {
+    public void setOnItemLongClickListener(OnItemLongClickListener listener)
+    {
         this.onItemLongClickListener = listener;
     }
 
-    public interface OnItemClickListener {
+    public interface OnItemClickListener
+    {
         void onItemClick(View view, int position);
     }
 
-    public interface OnItemLongClickListener {
+    public interface OnItemLongClickListener
+    {
         void onItemLongClick(View view, int position);
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    {
         return onCreateHolder(parent, viewType);
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
-        if (isHasHeader) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position)
+    {
+        if (isHasHeader)
+        {
             onBindHolder(holder, position - 1);
-        } else {
+        }
+        else
+        {
             onBindHolder(holder, position);
         }
 
-        if (onItemClickListener != null) {
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
+        if (onItemClickListener != null)
+        {
+            holder.itemView.setOnClickListener(new View.OnClickListener()
+            {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View v)
+                {
                     if (isHasHeader)
                         onItemClickListener.onItemClick(holder.itemView, holder.getLayoutPosition() - 1);
                     else
@@ -71,10 +84,13 @@ public abstract class BaseRcvAdapter extends RecyclerView.Adapter<RecyclerView.V
             });
         }
 
-        if (onItemLongClickListener != null) {
-            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+        if (onItemLongClickListener != null)
+        {
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener()
+            {
                 @Override
-                public boolean onLongClick(View v) {
+                public boolean onLongClick(View v)
+                {
                     if (isHasHeader)
                         onItemLongClickListener.onItemLongClick(holder.itemView, holder.getLayoutPosition() - 1);
                     else
@@ -86,36 +102,58 @@ public abstract class BaseRcvAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount()
+    {
         return getItemSize();
     }
 
     @Override
-    public int getItemViewType(int position) {
-        if (isHasHeader) {
-            if (isHasFooter) {
-                if (position == 0) {
+    public int getItemViewType(int position)
+    {
+        if (isHasHeader)
+        {
+            if (isHasFooter)
+            {
+                if (position == 0)
+                {
                     return TYPE_HEADER;
-                } else if (position + 1 == getItemSize()) {
-                    return TYPE_FOOTER;
-                } else {
-                    return TYPE_ITEM;
                 }
-            } else {
-                if (position == 0) {
-                    return TYPE_HEADER;
-                } else {
+                else if (position + 1 == getItemSize())
+                {
+                    return TYPE_FOOTER;
+                }
+                else
+                {
                     return TYPE_ITEM;
                 }
             }
-        } else {
-            if (isHasFooter) {
-                if (position == getItemSize() - 1) {
-                    return TYPE_FOOTER;
-                } else {
+            else
+            {
+                if (position == 0)
+                {
+                    return TYPE_HEADER;
+                }
+                else
+                {
                     return TYPE_ITEM;
                 }
-            } else {
+            }
+        }
+        else
+        {
+            if (isHasFooter)
+            {
+                if (position == getItemSize() - 1)
+                {
+                    return TYPE_FOOTER;
+                }
+                else
+                {
+                    return TYPE_ITEM;
+                }
+            }
+            else
+            {
                 return TYPE_ITEM;
             }
         }
@@ -125,26 +163,34 @@ public abstract class BaseRcvAdapter extends RecyclerView.Adapter<RecyclerView.V
      * 为GridViewLayout FootView设置占位为一行
      */
     @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+    public void onAttachedToRecyclerView(RecyclerView recyclerView)
+    {
         super.onAttachedToRecyclerView(recyclerView);
 
         RecyclerView.LayoutManager manager = recyclerView.getLayoutManager();
 
-        if (manager instanceof GridLayoutManager) {
+        if (manager instanceof GridLayoutManager)
+        {
 
             final GridLayoutManager gridManager = ((GridLayoutManager) manager);
 
-            gridManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            gridManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup()
+            {
                 @Override
-                public int getSpanSize(int position) {
+                public int getSpanSize(int position)
+                {
                     //footview
-                    if (getItemViewType(position) % TYPE_FOOTER == 0 && isHasFooter) {
+                    if (getItemViewType(position) % TYPE_FOOTER == 0 && isHasFooter)
+                    {
                         return gridManager.getSpanCount();
                     }
                     //headview
-                    else if (position == 0 && isHasHeader) {
+                    else if (position == 0 && isHasHeader)
+                    {
                         return gridManager.getSpanCount();
-                    } else {
+                    }
+                    else
+                    {
                         return 1;
                     }
                 }
@@ -156,7 +202,8 @@ public abstract class BaseRcvAdapter extends RecyclerView.Adapter<RecyclerView.V
      * 为StaggeredGridLayout FootView设置占位为一行
      */
     @Override
-    public void onViewAttachedToWindow(RecyclerView.ViewHolder holder) {
+    public void onViewAttachedToWindow(RecyclerView.ViewHolder holder)
+    {
         super.onViewAttachedToWindow(holder);
 
         ViewGroup.LayoutParams lp = holder.itemView.getLayoutParams();
@@ -164,14 +211,16 @@ public abstract class BaseRcvAdapter extends RecyclerView.Adapter<RecyclerView.V
         //HeaderView
         if (lp != null
                 && lp instanceof StaggeredGridLayoutManager.LayoutParams
-                && holder.getLayoutPosition() == 0) {
+                && holder.getLayoutPosition() == 0)
+        {
             StaggeredGridLayoutManager.LayoutParams p = (StaggeredGridLayoutManager.LayoutParams) lp;
             p.setFullSpan(true);
         }
         //FooterView
         else if (lp != null
                 && lp instanceof StaggeredGridLayoutManager.LayoutParams
-                && holder.getLayoutPosition() % TYPE_FOOTER == 0) {
+                && holder.getLayoutPosition() % TYPE_FOOTER == 0)
+        {
             StaggeredGridLayoutManager.LayoutParams p = (StaggeredGridLayoutManager.LayoutParams) lp;
             p.setFullSpan(true);
         }

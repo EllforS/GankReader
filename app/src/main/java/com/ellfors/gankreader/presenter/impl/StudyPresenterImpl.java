@@ -32,8 +32,8 @@ public class StudyPresenterImpl extends BasePresenterImpl<StudyContract.View> im
         Subscription sub = manager
                 .getGsonHttpApi()
                 .getStudyList(tag,limit,page)
-                .compose(RxUtils.<List<StudyModel>>handleResult())
-                .compose(RxUtils.<List<StudyModel>>rxSchedulerHelper())
+                .compose(RxUtils.handleResult())
+                .compose(RxUtils.rxSchedulerHelper())
                 .subscribe(new SimpleSubscriber<List<StudyModel>>()
                 {
                     @Override
@@ -58,8 +58,8 @@ public class StudyPresenterImpl extends BasePresenterImpl<StudyContract.View> im
         Subscription sub = manager
                 .getGsonHttpApi()
                 .getStudyList(tag,limit,page)
-                .compose(RxUtils.<List<StudyModel>>handleResult())
-                .compose(RxUtils.<List<StudyModel>>rxSchedulerHelper())
+                .compose(RxUtils.handleResult())
+                .compose(RxUtils.rxSchedulerHelper())
                 .subscribe(new SimpleSubscriber<List<StudyModel>>()
                 {
                     @Override

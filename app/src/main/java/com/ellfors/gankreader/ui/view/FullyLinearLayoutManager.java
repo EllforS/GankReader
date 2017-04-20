@@ -10,15 +10,17 @@ import android.view.ViewGroup;
 /**
  * 嵌套在ScrollView中的LinearLayoutManager
  */
-public class FullyLinearLayoutManager extends LinearLayoutManager {
-
+public class FullyLinearLayoutManager extends LinearLayoutManager
+{
     private static final String TAG = FullyLinearLayoutManager.class.getSimpleName();
 
-    public FullyLinearLayoutManager(Context context) {
+    public FullyLinearLayoutManager(Context context)
+    {
         super(context);
     }
 
-    public FullyLinearLayoutManager(Context context, int orientation, boolean reverseLayout) {
+    public FullyLinearLayoutManager(Context context, int orientation, boolean reverseLayout)
+    {
         super(context, orientation, reverseLayout);
     }
 
@@ -26,7 +28,8 @@ public class FullyLinearLayoutManager extends LinearLayoutManager {
 
     @Override
     public void onMeasure(RecyclerView.Recycler recycler, RecyclerView.State state,
-                          int widthSpec, int heightSpec) {
+                          int widthSpec, int heightSpec)
+    {
 
         final int widthMode = View.MeasureSpec.getMode(widthSpec);
         final int heightMode = View.MeasureSpec.getMode(heightSpec);
@@ -41,32 +44,40 @@ public class FullyLinearLayoutManager extends LinearLayoutManager {
 
         int width = 0;
         int height = 0;
-        for (int i = 0; i < getItemCount(); i++) {
+        for (int i = 0; i < getItemCount(); i++)
+        {
             measureScrapChild(recycler, i,
                     View.MeasureSpec.makeMeasureSpec(i, View.MeasureSpec.UNSPECIFIED),
                     View.MeasureSpec.makeMeasureSpec(i, View.MeasureSpec.UNSPECIFIED),
                     mMeasuredDimension);
 
-            if (getOrientation() == HORIZONTAL) {
+            if (getOrientation() == HORIZONTAL)
+            {
                 width = width + mMeasuredDimension[0];
-                if (i == 0) {
+                if (i == 0)
+                {
                     height = mMeasuredDimension[1];
                 }
-            } else {
+            }
+            else
+            {
                 height = height + mMeasuredDimension[1];
-                if (i == 0) {
+                if (i == 0)
+                {
                     width = mMeasuredDimension[0];
                 }
             }
         }
-        switch (widthMode) {
+        switch (widthMode)
+        {
             case View.MeasureSpec.EXACTLY:
                 width = widthSize;
             case View.MeasureSpec.AT_MOST:
             case View.MeasureSpec.UNSPECIFIED:
         }
 
-        switch (heightMode) {
+        switch (heightMode)
+        {
             case View.MeasureSpec.EXACTLY:
                 height = heightSize;
             case View.MeasureSpec.AT_MOST:
@@ -77,11 +88,14 @@ public class FullyLinearLayoutManager extends LinearLayoutManager {
     }
 
     private void measureScrapChild(RecyclerView.Recycler recycler, int position, int widthSpec,
-                                   int heightSpec, int[] measuredDimension) {
-        try {
+                                   int heightSpec, int[] measuredDimension)
+    {
+        try
+        {
             View view = recycler.getViewForPosition(0);//fix 动态添加时报IndexOutOfBoundsException
 
-            if (view != null) {
+            if (view != null)
+            {
                 RecyclerView.LayoutParams p = (RecyclerView.LayoutParams) view.getLayoutParams();
 
                 int childWidthSpec = ViewGroup.getChildMeasureSpec(widthSpec,
@@ -95,9 +109,13 @@ public class FullyLinearLayoutManager extends LinearLayoutManager {
                 measuredDimension[1] = view.getMeasuredHeight() + p.bottomMargin + p.topMargin;
                 recycler.recycleView(view);
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
-        } finally {
+        }
+        finally
+        {
         }
     }
 }
