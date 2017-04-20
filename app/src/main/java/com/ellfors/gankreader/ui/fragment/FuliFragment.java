@@ -91,7 +91,6 @@ public class FuliFragment extends BaseFragment implements FuliContract.View
             public void onScrolled(RecyclerView recyclerView, int dx, int dy)
             {
                 super.onScrolled(recyclerView, dx, dy);
-
                 GridLayoutManager gm = (GridLayoutManager) mRecyclerView.getLayoutManager();
                 lastVisibleItem = gm.findLastVisibleItemPosition();
             }

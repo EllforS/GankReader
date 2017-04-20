@@ -12,7 +12,6 @@ import android.util.Log;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 
 /**
  * 保存图片到本地图库
@@ -69,7 +68,7 @@ public class BitmapSaveUtils
         File appDir = new File(FilePath);
         if (!appDir.exists())
         {
-            appDir.mkdir();
+            Log.d(TAG, "saveImageToGallery: " + appDir.mkdirs());
         }
         String fileName = System.currentTimeMillis() + ".jpg";
         File file = new File(appDir, fileName);
@@ -80,12 +79,7 @@ public class BitmapSaveUtils
             fos.flush();
             fos.close();
         }
-        catch (FileNotFoundException e)
-        {
-            errorMessage += e.getMessage();
-            Log.e(TAG, "saveImageToGallery: " + e.getMessage());
-        }
-        catch (IOException e)
+        catch (Exception e)
         {
             errorMessage += e.getMessage();
             Log.e(TAG, "saveImageToGallery: " + e.getMessage());

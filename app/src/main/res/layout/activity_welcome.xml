@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
     android:background="@color/main_color"
     android:orientation="vertical">
 
@@ -11,6 +10,17 @@
         android:id="@+id/candles_view"
         android:layout_width="match_parent"
         android:layout_height="400dp"
-        android:layout_centerInParent="true"/>
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"/>
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/tv_welcome_dismiss"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:text="跳过"
+        android:layout_gravity="right"
+        android:textColor="@color/colorPrimary"
+        android:textSize="16sp"/>
+
+</FrameLayout>
