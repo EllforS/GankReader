@@ -4,10 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
-import android.os.Environment;
-import android.util.Base64;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -17,99 +14,100 @@ import java.io.IOException;
  */
 public class BitmapCompressUtils
 {
-    //--------------------------------------------------------------------------------------图片压缩
-
     /**
-     * 计算图片的缩放值
+     * 压缩图片
      */
-    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight)
+    public static File getCompressImage(String pic_path)
     {
-        final int height = options.outHeight;
-        final int width = options.outWidth;
-        int inSampleSize = 1;
-
-        if (height > reqHeight || width > reqWidth)
+        // 创建目录
+        File imageDir = new File(FileUtil.getPath(FileUtil.FILE_IMAGE_SAVE_DIR));
+        imageDir.mkdirs();// 会自动判断
+        String targetPath;
+        if ("gif".equalsIgnoreCase(getExt(pic_path)))
+            return new File(pic_path);
+        else
         {
-            final int heightRatio = Math.round((float) height / (float) reqHeight);
-            final int widthRatio = Math.round((float) width / (float) reqWidth);
-            inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
+            targetPath = imageDir.getAbsolutePath()
+                    + "/"
+                    + pic_path.substring(pic_path.lastIndexOf("/") + 1,
+                    pic_path.lastIndexOf(".")) + ".jpg";
         }
-        return inSampleSize;
+        //调用压缩图片的方法，返回压缩后的图片path
+        final File compressImage = compressImage(pic_path, targetPath, 75);
+        if (compressImage.exists())
+            return compressImage;
+        else
+            return new File(pic_path);
     }
 
     /**
-     * 根据路径获得图片并压缩，返回bitmap用于显示
+     * 获得文件后缀
      */
-    public static Bitmap getSmallBitmap(String filePath)
+    private static String getExt(String filename)
     {
-        final BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(filePath, options);
-
-        options.inSampleSize = calculateInSampleSize(options, 480, 800);
-
-        options.inJustDecodeBounds = false;
-
-        return BitmapFactory.decodeFile(filePath, options);
+        return filename.substring(filename.lastIndexOf('.') + 1).toLowerCase();
     }
 
-    /**
-     * 把bitmap转换成String
-     */
-    public static String bitmapToString(String filePath)
+    private static File compressImage(String filePath, String targetPath, int quality)
     {
-        Bitmap bm = getSmallBitmap(filePath);
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bm.compress(Bitmap.CompressFormat.JPEG, 40, baos);
-        byte[] b = baos.toByteArray();
-        return Base64.encodeToString(b, Base64.DEFAULT);
-    }
-
-    /**
-     * 压缩图片，处理某些手机拍照角度旋转的问题
-     */
-    public static File compressImage(String filePath, String savePath)
-    {
-        Bitmap bm = getSmallBitmap(filePath);
-
-        int degree = readPictureDegree(filePath);
+        Bitmap bm = getSmallBitmap(filePath);//获取一定尺寸的图片
+        int degree = readPictureDegree(filePath);//获取相片拍摄角度
         if (degree != 0)
         {
-            //旋转照片角度
+            //旋转照片角度，防止头像横着显示
             bm = rotateBitmap(bm, degree);
         }
-
-        //将要保存图片的路径
-        String path = Environment.getExternalStorageDirectory() + savePath;
-        //图片名称
-        String name = System.currentTimeMillis() + ".jpg";
-
-        File f = new File(path);
-        if (!f.exists())
-        {
-            f.mkdirs();
-        }
-
-        File outputFile = new File(path, name);
+        File outputFile = new File(targetPath);
         try
         {
+            if (!outputFile.exists())
+            {
+                outputFile.getParentFile().mkdirs();
+                //outputFile.createNewFile();
+            }
+            else
+            {
+                return outputFile;
+            }
             FileOutputStream out = new FileOutputStream(outputFile);
-            bm.compress(Bitmap.CompressFormat.JPEG, 100, out);
-            out.flush();
-            out.close();
+            if (bm != null && bm.compress(Bitmap.CompressFormat.JPEG, quality, out))
+            {
+                out.flush();
+                out.close();
+            }
         }
         catch (Exception e)
         {
-
+            e.printStackTrace();
         }
-
+        if (bm != null && !bm.isRecycled())
+        {
+            bm.recycle();  //回收图片所占的内存
+            System.gc(); //提醒系统及时回收
+        }
         return outputFile;
     }
 
     /**
-     * 判断照片角度
+     * 根据路径获得图片信息并按比例压缩，返回bitmap
      */
-    public static int readPictureDegree(String path)
+    private static Bitmap getSmallBitmap(String filePath)
+    {
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;//只解析图片边沿，获取宽高
+        BitmapFactory.decodeFile(filePath, options);
+        // 计算缩放比
+        options.inSampleSize = calculateInSampleSize(options, 480, 800);
+        // 完整解析图片返回bitmap
+        options.inJustDecodeBounds = false;
+        return BitmapFactory.decodeFile(filePath, options);
+    }
+
+
+    /**
+     * 获取照片角度
+     */
+    private static int readPictureDegree(String path)
     {
         int degree = 0;
         try
@@ -141,7 +139,7 @@ public class BitmapCompressUtils
     /**
      * 旋转照片
      */
-    public static Bitmap rotateBitmap(Bitmap bitmap, int degress)
+    private static Bitmap rotateBitmap(Bitmap bitmap, int degress)
     {
         if (bitmap != null)
         {
@@ -151,96 +149,30 @@ public class BitmapCompressUtils
                     bitmap.getHeight(), m, true);
             return bitmap;
         }
-        return bitmap;
+        return null;
     }
 
-    //----------------------------------------------------------------每次启动App删除压缩文件夹中的内容
-
-    /**
-     * 删除压缩的缓存图片的文件夹
-     */
-    public static boolean deleteCacheImg(String savePath)
+    private static int calculateInSampleSize(BitmapFactory.Options options,
+                                             int reqWidth, int reqHeight)
     {
-        String filePath = Environment.getExternalStorageDirectory() + savePath;
-        File file = new File(filePath);
-        if (!file.exists())
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+        if (height > reqHeight || width > reqWidth)
         {
-            return false;
+            final int heightRatio = Math.round((float) height / (float) reqHeight);
+            final int widthRatio = Math.round((float) width / (float) reqWidth);
+            inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
         }
-        else
-        {
-            if (file.isFile())
-            {
-                // 为文件时调用删除文件方法
-                return deleteFile(filePath);
-            }
-            else
-            {
-                // 为目录时调用删除目录方法
-                return deleteDirectory(filePath);
-            }
-        }
+        return inSampleSize;
     }
 
     /**
-     * 删除单个文件
-     *
-     * @param filePath 被删除文件的文件名
-     * @return 文件删除成功返回true，否则返回false
+     * 清除压缩图片
      */
-    public static boolean deleteFile(String filePath)
+    public static void clearCompressImages()
     {
-        File file = new File(filePath);
-        if (file.isFile() && file.exists())
-        {
-            return file.delete();
-        }
-        return false;
+        File imageDir = new File(FileUtil.getPath(FileUtil.FILE_IMAGE_SAVE_DIR));
+        FileUtil.deleteFilesRecursively(imageDir, true);
     }
-
-    /**
-     * 删除文件夹以及目录下的文件
-     *
-     * @param filePath 被删除目录的文件路径
-     * @return 目录删除成功返回true，否则返回false
-     */
-    public static boolean deleteDirectory(String filePath)
-    {
-        boolean flag = false;
-        //如果filePath不以文件分隔符结尾，自动添加文件分隔符
-        if (!filePath.endsWith(File.separator))
-        {
-            filePath = filePath + File.separator;
-        }
-        File dirFile = new File(filePath);
-        if (!dirFile.exists() || !dirFile.isDirectory())
-        {
-            return false;
-        }
-        flag = true;
-        File[] files = dirFile.listFiles();
-        //遍历删除文件夹下的所有文件(包括子目录)
-        for (int i = 0; i < files.length; i++)
-        {
-            if (files[i].isFile())
-            {
-                //删除子文件
-                flag = deleteFile(files[i].getAbsolutePath());
-                if (!flag)
-                    break;
-            }
-            else
-            {
-                //删除子目录
-                flag = deleteDirectory(files[i].getAbsolutePath());
-                if (!flag)
-                    break;
-            }
-        }
-        if (!flag)
-            return false;
-        //删除当前空目录
-        return dirFile.delete();
-    }
-
 }

@@ -1,17 +1,15 @@
 package com.ellfors.gankreader.presenter.impl;
 
 import com.ellfors.gankreader.base.BasePresenterImpl;
+import com.ellfors.gankreader.base.BaseSubscriber;
 import com.ellfors.gankreader.http.utils.RetrofitManager;
 import com.ellfors.gankreader.http.utils.RxUtils;
-import com.ellfors.gankreader.http.utils.SimpleSubscriber;
 import com.ellfors.gankreader.model.StudyModel;
 import com.ellfors.gankreader.presenter.contract.StudyContract;
 
 import java.util.List;
 
 import javax.inject.Inject;
-
-import rx.Subscription;
 
 public class StudyPresenterImpl extends BasePresenterImpl<StudyContract.View> implements StudyContract.Presenter
 {
@@ -29,51 +27,53 @@ public class StudyPresenterImpl extends BasePresenterImpl<StudyContract.View> im
     public void getStudyList(String tag)
     {
         page = 1;
-        Subscription sub = manager
+        manager
                 .getGsonHttpApi()
-                .getStudyList(tag,limit,page)
+                .getStudyList(tag, limit, page)
                 .compose(RxUtils.handleResult())
                 .compose(RxUtils.rxSchedulerHelper())
-                .subscribe(new SimpleSubscriber<List<StudyModel>>()
+                .subscribe(new BaseSubscriber<List<StudyModel>>()
                 {
                     @Override
-                    public void onError(Throwable e)
+                    public void onSuccess(List<StudyModel> studyModels)
                     {
-                        mView.showError(e.getMessage());
+                        if (mView != null)
+                            mView.showList(studyModels);
                     }
 
                     @Override
-                    public void onNext(List<StudyModel> androidModels)
+                    public void onFailed(Exception e)
                     {
-                        mView.showList(androidModels);
+                        if (mView != null)
+                            mView.showError(e.getMessage());
                     }
                 });
-        addSubscribe(sub);
     }
 
     @Override
     public void loadingStudyList(String tag)
     {
         page += 1;
-        Subscription sub = manager
+        manager
                 .getGsonHttpApi()
-                .getStudyList(tag,limit,page)
+                .getStudyList(tag, limit, page)
                 .compose(RxUtils.handleResult())
                 .compose(RxUtils.rxSchedulerHelper())
-                .subscribe(new SimpleSubscriber<List<StudyModel>>()
+                .subscribe(new BaseSubscriber<List<StudyModel>>()
                 {
                     @Override
-                    public void onError(Throwable e)
+                    public void onSuccess(List<StudyModel> studyModels)
                     {
-                        mView.showError(e.getMessage());
+                        if (mView != null)
+                            mView.loadingList(studyModels);
                     }
 
                     @Override
-                    public void onNext(List<StudyModel> androidModels)
+                    public void onFailed(Exception e)
                     {
-                        mView.loadingList(androidModels);
+                        if (mView != null)
+                            mView.showError(e.getMessage());
                     }
                 });
-        addSubscribe(sub);
     }
 }

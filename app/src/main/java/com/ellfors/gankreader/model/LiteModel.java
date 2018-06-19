@@ -11,43 +11,53 @@ public class LiteModel extends DataSupport
     private String url;
     private String author;
 
-    public String getServer_id() {
-        return server_id;
+    public String getServer_id()
+    {
+        return server_id == null ? "" : server_id;
     }
 
-    public void setServer_id(String server_id) {
+    public void setServer_id(String server_id)
+    {
         this.server_id = server_id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getTitle()
+    {
+        return title == null ? "" : title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(String title)
+    {
         this.title = title;
     }
 
-    public String getTime() {
-        return time;
+    public String getTime()
+    {
+        return time == null ? "" : time;
     }
 
-    public void setTime(String time) {
+    public void setTime(String time)
+    {
         this.time = time;
     }
 
-    public String getUrl() {
-        return url;
+    public String getUrl()
+    {
+        return url == null ? "" : url;
     }
 
-    public void setUrl(String url) {
+    public void setUrl(String url)
+    {
         this.url = url;
     }
 
-    public String getAuthor() {
-        return author;
+    public String getAuthor()
+    {
+        return author == null ? "" : author;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor(String author)
+    {
         this.author = author;
     }
 }

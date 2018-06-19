@@ -8,28 +8,24 @@ import com.ellfors.gankreader.http.config.RetrofitConfig;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 /**
  * Retrofit操纵类
  */
-public class RetrofitManager {
-
+public class RetrofitManager
+{
     private static volatile RetrofitManager instance;
-    public static String BASE_URL;
-    public static int DEFAULT_TIME;
+    private static String BASE_URL = RetrofitConfig.BASE_URL;
+    private static int DEFAULT_TIME = RetrofitConfig.OUTTIME;
 
-    private static HttpApi httpApi;
     private HttpLoggingInterceptor loggingInterceptor;
 
     public RetrofitManager()
     {
-        BASE_URL = RetrofitConfig.BASE_URL;
-        DEFAULT_TIME = RetrofitConfig.OUTTIME;
-
-        loggingInterceptor = new HttpLoggingInterceptor(message -> Log.d(RetrofitConfig.HTTP_TAG,message));
+        loggingInterceptor = new HttpLoggingInterceptor(message -> Log.d(RetrofitConfig.HTTP_TAG, message));
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
     }
 
@@ -38,11 +34,11 @@ public class RetrofitManager {
      */
     public static RetrofitManager getInstance()
     {
-        if(instance == null)
+        if (instance == null)
         {
             synchronized (RetrofitManager.class)
             {
-                if(instance == null)
+                if (instance == null)
                 {
                     instance = new RetrofitManager();
                 }
@@ -53,47 +49,37 @@ public class RetrofitManager {
 
     /**
      * 获取Gson解析的HttpApi
-     *
-     * @return httpApi
      */
-    public HttpApi getGsonHttpApi() {
+    public HttpApi getGsonHttpApi()
+    {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.connectTimeout(DEFAULT_TIME, java.util.concurrent.TimeUnit.SECONDS);
         builder.addInterceptor(loggingInterceptor);
-
-        Retrofit retrofit = new Retrofit
+        return new Retrofit
                 .Builder()
                 .client(builder.build())
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .build();
-
-        httpApi = retrofit.create(HttpApi.class);
-
-        return httpApi;
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .build()
+                .create(HttpApi.class);
     }
 
     /**
      * 获取原始String的HttpApi
-     *
-     * @return httpApi
      */
-    public HttpApi getStringHttpApi() {
+    public HttpApi getStringHttpApi()
+    {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.connectTimeout(DEFAULT_TIME, java.util.concurrent.TimeUnit.SECONDS);
-
-        Retrofit retrofit = new Retrofit
+        return new Retrofit
                 .Builder()
                 .client(builder.build())
                 .baseUrl(BASE_URL)
                 .addConverterFactory(ScalarsConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .build();
-
-        httpApi = retrofit.create(HttpApi.class);
-
-        return httpApi;
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .build()
+                .create(HttpApi.class);
     }
 
 }

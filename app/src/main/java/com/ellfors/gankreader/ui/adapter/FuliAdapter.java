@@ -12,7 +12,7 @@ import com.ellfors.gankreader.R;
 import com.ellfors.gankreader.base.BaseRcvAdapter;
 import com.ellfors.gankreader.base.BaseViewHolder;
 import com.ellfors.gankreader.model.FuliModel;
-import com.ellfors.gankreader.utils.GlideLoadUtils;
+import com.ellfors.gankreader.utils.ImageLoader;
 
 import java.util.List;
 
@@ -31,13 +31,13 @@ public class FuliAdapter extends BaseRcvAdapter
     @Override
     public RecyclerView.ViewHolder onCreateHolder(ViewGroup parent, int viewType)
     {
-        if(viewType == TYPE_ITEM)
+        if (viewType == TYPE_ITEM)
         {
-            return new ItemViewHolder(LayoutInflater.from(context).inflate(R.layout.list_item_fuli,parent,false));
+            return new ItemViewHolder(LayoutInflater.from(context).inflate(R.layout.list_item_fuli, parent, false));
         }
-        else if(viewType == TYPE_FOOTER)
+        else if (viewType == TYPE_FOOTER)
         {
-            return new FooterViewHolder(LayoutInflater.from(context).inflate(R.layout.list_item_footerview,parent,false));
+            return new FooterViewHolder(LayoutInflater.from(context).inflate(R.layout.list_item_footerview, parent, false));
         }
         return null;
     }
@@ -45,16 +45,16 @@ public class FuliAdapter extends BaseRcvAdapter
     @Override
     public void onBindHolder(RecyclerView.ViewHolder holder, int position)
     {
-        if(holder instanceof ItemViewHolder)
+        if (holder instanceof ItemViewHolder)
         {
-            GlideLoadUtils.loadImage(context,list.get(position).getUrl(),((ItemViewHolder) holder).iv_item);
+            ImageLoader.load(context, list.get(position).getUrl(), ((ItemViewHolder) holder).iv_item);
         }
     }
 
     @Override
     public int getItemSize()
     {
-        return list.size() == 0 || list == null ? 0 : list.size() + 1;
+        return list == null || list.size() == 0 ? 0 : list.size() + 1;
     }
 
     private class ItemViewHolder extends BaseViewHolder

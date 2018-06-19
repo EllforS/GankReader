@@ -71,32 +71,22 @@ public abstract class BaseRcvAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         if (onItemClickListener != null)
         {
-            holder.itemView.setOnClickListener(new View.OnClickListener()
-            {
-                @Override
-                public void onClick(View v)
-                {
-                    if (isHasHeader)
-                        onItemClickListener.onItemClick(holder.itemView, holder.getLayoutPosition() - 1);
-                    else
-                        onItemClickListener.onItemClick(holder.itemView, holder.getLayoutPosition());
-                }
+            holder.itemView.setOnClickListener(v -> {
+                if (isHasHeader)
+                    onItemClickListener.onItemClick(holder.itemView, holder.getLayoutPosition() - 1);
+                else
+                    onItemClickListener.onItemClick(holder.itemView, holder.getLayoutPosition());
             });
         }
 
         if (onItemLongClickListener != null)
         {
-            holder.itemView.setOnLongClickListener(new View.OnLongClickListener()
-            {
-                @Override
-                public boolean onLongClick(View v)
-                {
-                    if (isHasHeader)
-                        onItemLongClickListener.onItemLongClick(holder.itemView, holder.getLayoutPosition() - 1);
-                    else
-                        onItemLongClickListener.onItemLongClick(holder.itemView, holder.getLayoutPosition());
-                    return false;
-                }
+            holder.itemView.setOnLongClickListener(v -> {
+                if (isHasHeader)
+                    onItemLongClickListener.onItemLongClick(holder.itemView, holder.getLayoutPosition() - 1);
+                else
+                    onItemLongClickListener.onItemLongClick(holder.itemView, holder.getLayoutPosition());
+                return false;
             });
         }
     }

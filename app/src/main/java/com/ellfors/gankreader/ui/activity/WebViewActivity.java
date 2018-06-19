@@ -8,12 +8,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
-import android.webkit.WebChromeClient;
-import android.webkit.WebResourceError;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
@@ -25,8 +19,12 @@ import com.ellfors.gankreader.model.StudyModel;
 import com.ellfors.gankreader.presenter.contract.RandomContract;
 import com.ellfors.gankreader.presenter.impl.RandomPresenterImpl;
 import com.ellfors.gankreader.ui.fragment.StudyFragment;
-import com.ellfors.gankreader.utils.GlideLoadUtils;
+import com.ellfors.gankreader.utils.ImageLoader;
 import com.ellfors.gankreader.utils.L;
+import com.tencent.smtt.sdk.WebChromeClient;
+import com.tencent.smtt.sdk.WebSettings;
+import com.tencent.smtt.sdk.WebView;
+import com.tencent.smtt.sdk.WebViewClient;
 
 import org.litepal.crud.DataSupport;
 
@@ -91,13 +89,9 @@ public class WebViewActivity extends BaseActivity implements RandomContract.View
                 {
                     /* 设置 CollapsingToolbarLayout 标题属性 */
                     if (model.getDesc().length() > 10)
-                    {
                         coll.setTitle(model.getDesc().substring(0, 10) + "...");
-                    }
                     else
-                    {
                         coll.setTitle(model.getDesc());
-                    }
                     coll.setCollapsedTitleTextColor(getResources().getColor(R.color.black));
                     coll.setExpandedTitleColor(getResources().getColor(R.color.transparent));
                 }
@@ -141,14 +135,14 @@ public class WebViewActivity extends BaseActivity implements RandomContract.View
         {
             if (isLiked)
             {
-                    /* 已收藏，点击取消收藏 */
+                /* 已收藏，点击取消收藏 */
                 DataSupport.deleteAll(LiteModel.class, "server_id = ?", model.get_id());
                 isLiked = false;
                 btn_like.setImageResource(R.drawable.icon_like_no);
             }
             else
             {
-                    /* 为收藏，点击收藏 */
+                /* 为收藏，点击收藏 */
                 LiteModel liteModel = new LiteModel();
                 liteModel.setServer_id(model.get_id());
                 liteModel.setTitle(model.getDesc());
@@ -204,10 +198,11 @@ public class WebViewActivity extends BaseActivity implements RandomContract.View
                 加载网页失败时处理 如：提示失败，或显示新的界面
              */
             @Override
-            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error)
+            public void onReceivedError(WebView webView, com.tencent.smtt.export.external.interfaces.WebResourceRequest webResourceRequest, com.tencent.smtt.export.external.interfaces.WebResourceError webResourceError)
             {
-                super.onReceivedError(view, request, error);
+                super.onReceivedError(webView, webResourceRequest, webResourceError);
             }
+
         });
     }
 
@@ -219,8 +214,10 @@ public class WebViewActivity extends BaseActivity implements RandomContract.View
         mWebView.setWebChromeClient(new WebChromeClient()
         {
             @Override
-            public void onProgressChanged(WebView view, int newProgress)
+            public void onProgressChanged(WebView webView, int newProgress)
             {
+                super.onProgressChanged(webView, newProgress);
+
                 if (mBar != null)
                 {
                     if (mBar.getVisibility() == View.GONE)
@@ -290,7 +287,7 @@ public class WebViewActivity extends BaseActivity implements RandomContract.View
     @Override
     public void setImage(RandomModel model)
     {
-        GlideLoadUtils.loadImage(mContext, model.getUrl(), iv_title);
+        ImageLoader.load(mContext, model.getUrl(), iv_title);
     }
 
     @Override

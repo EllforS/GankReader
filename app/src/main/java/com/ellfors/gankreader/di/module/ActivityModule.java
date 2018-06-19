@@ -6,7 +6,7 @@ import com.ellfors.gankreader.di.ActivityScope;
 import com.ellfors.gankreader.ui.fragment.AboutFragment;
 import com.ellfors.gankreader.ui.fragment.FuliFragment;
 import com.ellfors.gankreader.ui.fragment.LikeFragment;
-import com.ellfors.gankreader.ui.fragment.ReadFragment;
+import com.ellfors.gankreader.ui.fragment.MainFragment;
 import com.ellfors.gankreader.ui.fragment.SettingFragment;
 
 import dagger.Module;
@@ -38,9 +38,9 @@ public class ActivityModule
 
     @Provides
     @ActivityScope
-    ReadFragment provideReadFragment()
+    MainFragment provideReadFragment()
     {
-        return new ReadFragment();
+        return new MainFragment();
     }
 
     @Provides

@@ -16,10 +16,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <meta-data
-            android:name="com.ellfors.calendar_demo.util.GlideModelConfig"
-            android:value="GlideModule"/>
-
         <activity
             android:name=".ui.activity.MainActivity"
             android:launchMode="singleTask"

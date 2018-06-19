@@ -5,11 +5,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.ellfors.gankreader.BuildConfig;
 import com.ellfors.gankreader.R;
 import com.ellfors.gankreader.base.BaseFragment;
 import com.ellfors.gankreader.ui.activity.MainActivity;
 import com.ellfors.gankreader.utils.DataCleanManager;
-import com.ellfors.gankreader.utils.VersionUtils;
+import com.ellfors.gankreader.utils.ImageLoader;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -55,7 +56,7 @@ public class SettingFragment extends BaseFragment
             e.printStackTrace();
         }
         /* Version */
-        tv_version.setText(VersionUtils.getAppVersionName(getActivity()));
+        tv_version.setText(BuildConfig.VERSION_NAME);
     }
 
     @OnClick(R.id.hear_open_drawer)
@@ -68,6 +69,7 @@ public class SettingFragment extends BaseFragment
     void doCleanCache()
     {
         DataCleanManager.clearAllCache(getActivity());
+        ImageLoader.cleanAll(getActivity());
         try
         {
             tv_cache_size.setText(DataCleanManager.getTotalCacheSize(getActivity()));

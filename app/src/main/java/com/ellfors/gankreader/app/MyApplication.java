@@ -2,6 +2,8 @@ package com.ellfors.gankreader.app;
 
 
 import android.app.Activity;
+import android.content.Context;
+import android.os.Build;
 import android.support.v7.app.AppCompatDelegate;
 
 import com.ellfors.gankreader.di.component.AppComponent;
@@ -12,48 +14,33 @@ import com.ellfors.gankreader.utils.L;
 
 import org.litepal.LitePalApplication;
 
+import java.util.Iterator;
 import java.util.Stack;
 
 public class MyApplication extends LitePalApplication
 {
     private static Stack<Activity> stack;
-    private static MyApplication mContext;
+    private static MyApplication mApp;
 
-    //双重校验锁
-    private volatile static MyApplication instance; //加入volatile防止JVM重排序
-
-    public MyApplication() {
-
-    }
-
-    public static MyApplication getInstance() {
-
-        //第一次检查
-        if (instance == null) {
-            //加入同步锁，保证线程安全
-            synchronized (MyApplication.class) {
-                //第二次检查
-                if (instance == null) {
-                    instance = new MyApplication();
-                }
-            }
-        }
-        return instance;
+    public static MyApplication getInstance()
+    {
+        return mApp;
     }
 
     @Override
-    public void onCreate() {
+    public void onCreate()
+    {
         super.onCreate();
-
         init();
     }
 
-    private void init() {
-        instance = this;
+    private void init()
+    {
+        mApp = this;
         stack = new Stack<>();
+
         setDayNightMode();
-        mContext = this;
-        L.init(AppConfig.LOG_TAG,2,false,0);
+        L.init(AppConfig.LOG_TAG, 2, false, 0);
     }
 
     /**
@@ -61,7 +48,7 @@ public class MyApplication extends LitePalApplication
      */
     private void setDayNightMode()
     {
-        switch (AppUtils.getStringSharedPreferences(this,AppConfig.DAY_NIGHT_MODE,AppConfig.MODE_DAY))
+        switch (AppUtils.getStringSharedPreferences(this, AppConfig.DAY_NIGHT_MODE, AppConfig.MODE_DAY))
         {
             case AppConfig.MODE_DAY:
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -81,87 +68,111 @@ public class MyApplication extends LitePalApplication
     {
         return DaggerAppComponent
                 .builder()
-                .appModule(new AppModule(mContext))
+                .appModule(new AppModule(mApp))
                 .build();
     }
 
     /**
-     * 添加到堆
-     *
-     * @param activity
+     * 将Activity加入栈
      */
-    public void addTask(Activity activity) {
-        if (stack == null) {
-            stack = new Stack<Activity>();
-        }
+    public void addTask(Activity activity)
+    {
+        if (stack == null)
+            stack = new Stack<>();
         stack.add(activity);
     }
 
     /**
-     * 获取当前Activity
-     *
-     * @return activity
+     * 将Activity移出栈
      */
-    public Activity currentActivity() {
-        Activity activity = stack.lastElement();
-        return activity;
+    public void removeTask(Activity activity)
+    {
+        if (stack != null && activity != null && stack.contains(activity))
+            stack.remove(activity);
     }
 
     /**
-     * 结束当前Activity
+     * 获取栈顶的Activity
      */
-    public void finishActivity() {
-        Activity activity = stack.lastElement();
-        finishActivity(activity);
+    public Context currentActivity()
+    {
+        try
+        {
+            return stack.lastElement() == null ? getApplicationContext() : stack.lastElement();
+        }
+        catch (Exception e)
+        {
+            return getApplicationContext();
+        }
     }
 
     /**
-     * 结束指定的Activity
-     *
-     * @param activity
+     * 销毁Acitivity
      */
-    public void finishActivity(Activity activity) {
-        if (activity != null) {
+    public void finishLastActivity()
+    {
+        Activity activity = stack.lastElement();
+        if (activity != null)
+            this.finishActivity(activity);
+    }
+
+    /**
+     * 销毁Acitivity
+     */
+    public void finishActivity(Activity activity)
+    {
+        if (activity != null && stack != null)
+        {
             stack.remove(activity);
             activity.finish();
-            activity = null;
         }
     }
 
     /**
-     * 结束指定类名的Activity
-     *
-     * @param cls
+     * 销毁Acitivity
      */
-    public void finishActivity(Class<?> cls) {
-        for (Activity activity : stack) {
-            if (activity.getClass().equals(cls)) {
-                finishActivity(activity);
+    public void finishActivity(Class<?> cls)
+    {
+        if (cls == null || stack == null)
+            return;
+        for (Activity activity : stack)
+        {
+            if (activity.getClass().equals(cls))
+            {
+                this.finishActivity(activity);
             }
         }
     }
 
     /**
-     * 判断实例中是否有当前Activity
-     *
-     * @param cls
-     * @return
+     * 判断是否含有Activity
      */
-    public boolean hasActivity(Class<?> cls) {
-        for (Activity activity : stack) {
-            if (activity.getClass().equals(cls)) {
-                return true;
+    public boolean hasActivity(Class<?> cls)
+    {
+        Iterator var2 = stack.iterator();
+        Activity activity;
+        do
+        {
+            if (!var2.hasNext())
+            {
+                return false;
             }
-        }
-        return false;
+
+            activity = (Activity) var2.next();
+        } while (!activity.getClass().equals(cls));
+        return true;
     }
 
     /**
-     * 结束所有的Activity
+     * 销毁全部Activity
      */
-    public void finishAllActivity() {
-        for (int i = 0, size = stack.size(); i < size; i++) {
-            if (null != stack.get(i)) {
+    public void finishAllActivity()
+    {
+        int i = 0;
+        for (int size = stack.size(); i < size; ++i)
+        {
+            if (null != stack.get(i))
+            {
                 stack.get(i).finish();
             }
         }
@@ -169,13 +180,11 @@ public class MyApplication extends LitePalApplication
     }
 
     /**
-     * 判断当前版本是否兼容目标版本的方法
-     *
-     * @param VersionCode
-     * @return
+     * 判断是否大于当前版本
      */
-    public static boolean isMethodsCompat(int VersionCode) {
-        int currentVersion = android.os.Build.VERSION.SDK_INT;
+    public static boolean isMethodsCompat(int VersionCode)
+    {
+        int currentVersion = Build.VERSION.SDK_INT;
         return currentVersion >= VersionCode;
     }
 }

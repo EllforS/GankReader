@@ -32,6 +32,7 @@ public abstract class BaseActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(getLayout());
+        MyApplication.getInstance().addTask(this);
         init();
         unbinder = ButterKnife.bind(this);
         initInject();
@@ -44,6 +45,7 @@ public abstract class BaseActivity extends AppCompatActivity
         super.onDestroy();
         if (unbinder != null)
             unbinder.unbind();
+        MyApplication.getInstance().removeTask(this);
     }
 
     /**
@@ -152,14 +154,7 @@ public abstract class BaseActivity extends AppCompatActivity
      */
     public boolean progressDialogIsShowing()
     {
-        if (mProgressDialog.isShowing())
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return mProgressDialog.isShowing();
     }
 
     /**
@@ -176,38 +171,6 @@ public abstract class BaseActivity extends AppCompatActivity
     public void showToast(int resId)
     {
         AppUtils.showToast(mContext, resId);
-    }
-
-    /**
-     * 显示视图
-     */
-    public void showView(View view)
-    {
-        AppUtils.showView(view);
-    }
-
-    /**
-     * 隐藏视图
-     */
-    public void hideViewGone(View view)
-    {
-        AppUtils.hideViewGone(view);
-    }
-
-    /**
-     * 隐藏视图 保留位置
-     */
-    public void hideViewInvisible(View view)
-    {
-        AppUtils.hideViewInvisible(view);
-    }
-
-    /**
-     * 判断视图是否显示
-     */
-    public boolean isShowView(View view)
-    {
-        return AppUtils.isShowView(view);
     }
 
     /**

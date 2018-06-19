@@ -1,0 +1,39 @@
+ext {
+    //基本配置
+    basic = [
+            compileSdkVersion: 25,
+            buildToolsVersion: "25.0.1",
+            minSdkVersion    : 17,
+            targetSdkVersion : 25,
+            versionCode      : 1,
+            versionName      : "1.0.0"
+    ]
+    //官方控件配置
+    support = [
+            V4          : 'com.android.support:support-v4:25.1.0',
+            V7          : 'com.android.support:appcompat-v7:25.1.0',
+            Design      : 'com.android.support:design:25.1.0',
+            RecyclerView: 'com.android.support:recyclerview-v7:25.1.0',
+            CardView    : 'com.android.support:cardview-v7:25.1.0'
+    ]
+    //开源Library
+    openlibrary = [
+            Logger                    : 'com.orhanobut:logger:1.15',
+            Glide                     : 'com.github.bumptech.glide:glide:4.0.0-RC1',
+            ButterKnife               : 'com.jakewharton:butterknife:8.8.1',
+            ButterKnife_Compiler      : 'com.jakewharton:butterknife-compiler:8.8.1',
+            Dagger2                   : 'com.google.dagger:dagger:2.14.1',
+            Dagger2_Compiler          : 'com.google.dagger:dagger-compiler:2.14.1',
+            RxJava                    : 'io.reactivex.rxjava2:rxjava:2.1.10',
+            RxAndroid                 : 'io.reactivex.rxjava2:rxandroid:2.0.2',
+            Retrofit                  : 'com.squareup.retrofit2:retrofit:2.3.0',
+            Retrofit_Converter_Json   : 'com.squareup.retrofit2:converter-gson:2.3.0',
+            Retrofit_Converter_Scalars: 'com.squareup.retrofit2:converter-scalars:2.3.0',
+            Retrofit_RxJava_Adapter   : 'com.squareup.retrofit2:adapter-rxjava2:2.3.0',
+            RetrofitLogger            : 'com.squareup.okhttp3:logging-interceptor:3.10.0',
+            Gson                      : 'com.google.code.gson:gson:2.8.0',
+            PermissionGen             : 'com.lovedise:permissiongen:0.0.6',
+            PhotoView                 : 'com.github.chrisbanes:PhotoView:1.3.1',
+            LitePal                   : 'org.litepal.android:core:1.4.1'
+    ]
+}

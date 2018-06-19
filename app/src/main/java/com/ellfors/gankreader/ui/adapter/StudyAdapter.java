@@ -13,7 +13,7 @@ import com.ellfors.gankreader.R;
 import com.ellfors.gankreader.base.BaseRcvAdapter;
 import com.ellfors.gankreader.base.BaseViewHolder;
 import com.ellfors.gankreader.model.StudyModel;
-import com.ellfors.gankreader.ui.fragment.ReadFragment;
+import com.ellfors.gankreader.ui.fragment.MainFragment;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ public class StudyAdapter extends BaseRcvAdapter
     private Context context;
     private List<StudyModel> list;
 
-    public StudyAdapter(String tag,Context context, List<StudyModel> list)
+    public StudyAdapter(String tag, Context context, List<StudyModel> list)
     {
         super(false, true);
         this.tag = tag;
@@ -34,13 +34,13 @@ public class StudyAdapter extends BaseRcvAdapter
     @Override
     public RecyclerView.ViewHolder onCreateHolder(ViewGroup parent, int viewType)
     {
-        if(viewType == TYPE_ITEM)
+        if (viewType == TYPE_ITEM)
         {
-            return new ItemViewHolder(LayoutInflater.from(context).inflate(R.layout.list_item_study,parent,false));
+            return new ItemViewHolder(LayoutInflater.from(context).inflate(R.layout.list_item_study, parent, false));
         }
-        else if(viewType == TYPE_FOOTER)
+        else if (viewType == TYPE_FOOTER)
         {
-            return new FooterViewHolder(LayoutInflater.from(context).inflate(R.layout.list_item_footerview,parent,false));
+            return new FooterViewHolder(LayoutInflater.from(context).inflate(R.layout.list_item_footerview, parent, false));
         }
         return null;
     }
@@ -48,23 +48,23 @@ public class StudyAdapter extends BaseRcvAdapter
     @Override
     public void onBindHolder(RecyclerView.ViewHolder holder, int position)
     {
-        if(holder instanceof ItemViewHolder)
+        if (holder instanceof ItemViewHolder)
         {
-            if(!TextUtils.isEmpty(list.get(position).getDesc()))
+            if (!TextUtils.isEmpty(list.get(position).getDesc()))
                 ((ItemViewHolder) holder).tv_title.setText(list.get(position).getDesc());
-            if(!TextUtils.isEmpty(list.get(position).getPublishedAt()) && list.get(position).getPublishedAt().length() > 10)
-                ((ItemViewHolder) holder).tv_time.setText(list.get(position).getPublishedAt().substring(0,10));
-            if(!TextUtils.isEmpty(list.get(position).getWho()))
+            if (!TextUtils.isEmpty(list.get(position).getPublishedAt()) && list.get(position).getPublishedAt().length() > 10)
+                ((ItemViewHolder) holder).tv_time.setText(list.get(position).getPublishedAt().substring(0, 10));
+            if (!TextUtils.isEmpty(list.get(position).getWho()))
                 ((ItemViewHolder) holder).tv_author.setText(list.get(position).getWho());
             switch (tag)
             {
-                case ReadFragment.TAG_ANDROID:
+                case MainFragment.TAG_ANDROID:
                     ((ItemViewHolder) holder).iv_logo.setBackgroundResource(R.drawable.icon_android);
                     break;
-                case ReadFragment.TAG_IOS:
+                case MainFragment.TAG_IOS:
                     ((ItemViewHolder) holder).iv_logo.setBackgroundResource(R.drawable.icon_ios);
                     break;
-                case ReadFragment.TAG_WEB:
+                case MainFragment.TAG_WEB:
                     ((ItemViewHolder) holder).iv_logo.setBackgroundResource(R.drawable.icon_web);
                     break;
                 default:

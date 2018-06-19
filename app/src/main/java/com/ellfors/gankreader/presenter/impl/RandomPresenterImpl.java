@@ -2,17 +2,15 @@ package com.ellfors.gankreader.presenter.impl;
 
 
 import com.ellfors.gankreader.base.BasePresenterImpl;
+import com.ellfors.gankreader.base.BaseSubscriber;
 import com.ellfors.gankreader.http.utils.RetrofitManager;
 import com.ellfors.gankreader.http.utils.RxUtils;
-import com.ellfors.gankreader.http.utils.SimpleSubscriber;
 import com.ellfors.gankreader.model.RandomModel;
 import com.ellfors.gankreader.presenter.contract.RandomContract;
 
 import java.util.List;
 
 import javax.inject.Inject;
-
-import rx.Subscription;
 
 public class RandomPresenterImpl extends BasePresenterImpl<RandomContract.View> implements RandomContract.Presenter
 {
@@ -27,25 +25,26 @@ public class RandomPresenterImpl extends BasePresenterImpl<RandomContract.View> 
     @Override
     public void getRandomImg()
     {
-        Subscription sub = manager
+        manager
                 .getGsonHttpApi()
                 .getRandomFuli(1)
                 .compose(RxUtils.handleResult())
                 .compose(RxUtils.rxSchedulerHelper())
-                .subscribe(new SimpleSubscriber<List<RandomModel>>()
+                .subscribe(new BaseSubscriber<List<RandomModel>>()
                 {
                     @Override
-                    public void onError(Throwable e)
+                    public void onSuccess(List<RandomModel> randomModels)
                     {
-                        mView.showError(e.getMessage());
+                        if (mView != null)
+                            mView.setImage(randomModels.size() > 0 ? randomModels.get(0) : new RandomModel());
                     }
 
                     @Override
-                    public void onNext(List<RandomModel> randomModel)
+                    public void onFailed(Exception e)
                     {
-                        mView.setImage(randomModel.get(0));
+                        if (mView != null)
+                            mView.showError(e.getMessage());
                     }
                 });
-        addSubscribe(sub);
     }
 }

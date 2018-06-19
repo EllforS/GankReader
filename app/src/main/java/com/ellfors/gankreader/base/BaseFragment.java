@@ -149,14 +149,7 @@ public abstract class BaseFragment extends Fragment
      */
     public boolean progressDialogIsShowing()
     {
-        if (mProgressDialog.isShowing())
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return mProgressDialog.isShowing();
     }
 
     /**
@@ -173,38 +166,6 @@ public abstract class BaseFragment extends Fragment
     public void showToast(int resId)
     {
         AppUtils.showToast(mContext, resId);
-    }
-
-    /**
-     * 显示视图
-     */
-    public void showView(View view)
-    {
-        AppUtils.showView(view);
-    }
-
-    /**
-     * 隐藏视图
-     */
-    public void hideViewGone(View view)
-    {
-        AppUtils.hideViewGone(view);
-    }
-
-    /**
-     * 隐藏视图 保留位置
-     */
-    public void hideViewInvisible(View view)
-    {
-        AppUtils.hideViewInvisible(view);
-    }
-
-    /**
-     * 判断视图是否显示
-     */
-    public boolean isShowView(View view)
-    {
-        return AppUtils.isShowView(view);
     }
 
     /**

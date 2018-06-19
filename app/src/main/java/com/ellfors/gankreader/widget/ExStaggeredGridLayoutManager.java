@@ -1,4 +1,4 @@
-package com.ellfors.gankreader.ui.view;
+package com.ellfors.gankreader.widget;
 
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;

@@ -1,4 +1,4 @@
-package com.ellfors.gankreader.ui.view;
+package com.ellfors.gankreader.widget;
 
 import android.content.Context;
 import android.support.annotation.Nullable;

@@ -7,7 +7,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Environment;
 import android.util.DisplayMetrics;
-import android.view.View;
 import android.widget.Toast;
 
 import java.util.Locale;
@@ -38,61 +37,6 @@ public class AppUtils
     public static void showToast(Context context, int resId)
     {
         Toast.makeText(context, resId, Toast.LENGTH_SHORT).show();
-    }
-
-    /**
-     * 显示视图
-     */
-    public static void showView(View view)
-    {
-        if (view == null)
-        {
-            return;
-        }
-        else
-        {
-            if (View.GONE == view.getVisibility() || View.INVISIBLE == view.getVisibility())
-            {
-                view.setVisibility(View.VISIBLE);
-            }
-        }
-    }
-
-    /**
-     * 隐藏视图
-     */
-    public static void hideViewGone(View view)
-    {
-        if (view != null && View.VISIBLE == view.getVisibility())
-        {
-            view.setVisibility(View.GONE);
-        }
-    }
-
-    /**
-     * 隐藏视图 保留位置
-     */
-    public static void hideViewInvisible(View view)
-    {
-        if (view != null && View.VISIBLE == view.getVisibility())
-        {
-            view.setVisibility(View.INVISIBLE);
-        }
-    }
-
-    /**
-     * 判断视图是否显示
-     */
-    public static boolean isShowView(View view)
-    {
-        if (view != null && view.getVisibility() == View.VISIBLE)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
     }
 
     /**

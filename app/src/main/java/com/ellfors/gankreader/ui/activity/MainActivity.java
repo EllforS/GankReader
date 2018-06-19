@@ -17,7 +17,7 @@ import com.ellfors.gankreader.base.BaseFragment;
 import com.ellfors.gankreader.ui.fragment.AboutFragment;
 import com.ellfors.gankreader.ui.fragment.FuliFragment;
 import com.ellfors.gankreader.ui.fragment.LikeFragment;
-import com.ellfors.gankreader.ui.fragment.ReadFragment;
+import com.ellfors.gankreader.ui.fragment.MainFragment;
 import com.ellfors.gankreader.ui.fragment.SettingFragment;
 
 import org.litepal.tablemanager.Connector;
@@ -40,7 +40,7 @@ public class MainActivity extends BaseActivity
     NavigationView mNavigationView;
 
     @Inject
-    ReadFragment readFragment;
+    MainFragment mainFragment;
     @Inject
     FuliFragment fuliFragment;
     @Inject
@@ -76,7 +76,7 @@ public class MainActivity extends BaseActivity
         /* initFragment */
         fm = getSupportFragmentManager();
         ft = fm.beginTransaction();
-        ft.add(R.id.main_frame, readFragment);
+        ft.add(R.id.main_frame, mainFragment);
         ft.add(R.id.main_frame, fuliFragment);
         ft.add(R.id.main_frame, likeFragment);
         ft.add(R.id.main_frame, settingFragment);
@@ -86,13 +86,13 @@ public class MainActivity extends BaseActivity
         ft.hide(settingFragment);
         ft.hide(aboutFragment);
         ft.commit();
-        now_fragment = readFragment;
+        now_fragment = mainFragment;
         /* NavigationView */
         mNavigationView.setNavigationItemSelectedListener(item -> {
             switch (item.getItemId())
             {
                 case R.id.menu_read:
-                    setMenuItemListener(readFragment);
+                    setMenuItemListener(mainFragment);
                     break;
                 case R.id.menu_fuli:
                     setMenuItemListener(fuliFragment);

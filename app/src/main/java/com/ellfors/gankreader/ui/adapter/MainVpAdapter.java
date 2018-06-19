@@ -4,16 +4,16 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.ellfors.gankreader.ui.fragment.ReadFragment;
+import com.ellfors.gankreader.ui.fragment.MainFragment;
 import com.ellfors.gankreader.ui.fragment.StudyFragment;
 
 import java.util.List;
 
-public class ViewPagerAdapter extends FragmentStatePagerAdapter
+public class MainVpAdapter extends FragmentStatePagerAdapter
 {
     private List<String> list;
 
-    public ViewPagerAdapter(FragmentManager fm, List<String> list)
+    public MainVpAdapter(FragmentManager fm, List<String> list)
     {
         super(fm);
         this.list = list;
@@ -38,11 +38,11 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter
         switch (position)
         {
             case 0:
-                return ReadFragment.TAG_ANDROID;
+                return MainFragment.TAG_ANDROID;
             case 1:
-                return ReadFragment.TAG_IOS;
+                return MainFragment.TAG_IOS;
             case 2:
-                return ReadFragment.TAG_WEB;
+                return MainFragment.TAG_WEB;
             default:
                 return null;
         }

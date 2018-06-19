@@ -14,7 +14,8 @@ public class WelcomeActivity extends BaseActivity
 {
     private static final int TIME = 5100;
 
-    @BindView(R.id.tv_welcome_dismiss) TextView tv_dismiss;
+    @BindView(R.id.tv_welcome_dismiss)
+    TextView tv_dismiss;
 
     private Handler handler = new Handler();
 
@@ -33,20 +34,20 @@ public class WelcomeActivity extends BaseActivity
     @Override
     public void initEventAndData()
     {
-        handler.postDelayed(runnable,TIME);
+        handler.postDelayed(runnable, TIME);
     }
 
     @OnClick(R.id.tv_welcome_dismiss)
     void onDismiss()
     {
-        startActivity(new Intent(mContext,MainActivity.class));
+        startActivity(new Intent(mContext, MainActivity.class));
         handler.removeCallbacks(runnable);
         finish();
     }
 
     private Runnable runnable = () ->
     {
-        startActivity(new Intent(mContext,MainActivity.class));
+        startActivity(new Intent(mContext, MainActivity.class));
         finish();
     };
 }

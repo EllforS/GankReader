@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.ellfors.gankreader.R;
 import com.ellfors.gankreader.base.BaseFragment;
 import com.ellfors.gankreader.ui.activity.MainActivity;
-import com.ellfors.gankreader.ui.adapter.ViewPagerAdapter;
+import com.ellfors.gankreader.ui.adapter.MainVpAdapter;
 import com.ellfors.gankreader.utils.DensityUtils;
 
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class ReadFragment extends BaseFragment
+public class MainFragment extends BaseFragment
 {
     public static final String TAG_ANDROID = "Android";
     public static final String TAG_IOS = "iOS";
@@ -36,7 +36,7 @@ public class ReadFragment extends BaseFragment
     ViewPager viewPager;
 
     private List<String> list;
-    private ViewPagerAdapter adapter;
+    private MainVpAdapter adapter;
 
     @Override
     public void initInject()
@@ -59,13 +59,13 @@ public class ReadFragment extends BaseFragment
         LinearLayout linearLayout = (LinearLayout) tabLayout.getChildAt(0);
         linearLayout.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
         linearLayout.setDividerDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.layout_divider_vertical));
-        linearLayout.setDividerPadding(DensityUtils.dp2px(getActivity(),15));
+        linearLayout.setDividerPadding(DensityUtils.dp2px(getActivity(), 15));
         /* 装载ViewPager */
         list = new ArrayList<>();
         list.add(TAG_ANDROID);
         list.add(TAG_IOS);
         list.add(TAG_WEB);
-        adapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager(),list);
+        adapter = new MainVpAdapter(getActivity().getSupportFragmentManager(), list);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
     }
